@@ -248,14 +248,7 @@ export default function Home() {
           </div>
 
           {/* HERO IMAGE */}
-          <div className="heroImage fadeUp delay2">
-            <div className="imageNote">
-              <strong style={{ color: "#fff" }}>Hero image:</strong>{" "}
-              add a file named <code style={{ color: "#fff" }}>/public/hero.jpg</code>{" "}
-              (a clean grayscale fashion photo works best).
-              If you don’t add one, you’ll still see the gradient overlay.
-            </div>
-          </div>
+         <div className="heroImage fadeUp delay2" />
         </div>
       </section>
 
