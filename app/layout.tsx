@@ -45,6 +45,7 @@ export default function RootLayout({
             <Link href="/" style={linkStyle}>
               Home
             </Link>
+          <Link href="/wardrobes" style={linkStyle}>Wardrobes</Link>
             <Link href="/faq" style={linkStyle}>
               FAQ
             </Link>
