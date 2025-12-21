@@ -1,6 +1,26 @@
+"use client";
+
 import Link from "next/link";
+import React from "react";
 
 export default function Home() {
+  const phrases = [
+    "Intelligent access to modern style",
+    "Dress smarter",
+    "A simpler way to dress",
+    "Luxury without ownership",
+    "A wardrobe that adapts to you",
+  ];
+
+  const [index, setIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % phrases.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main
       style={{
@@ -35,6 +55,24 @@ export default function Home() {
 
         @keyframes fadeIn {
           to { opacity: 1; transform: translateY(0); }
+        }
+
+        .rotatingText {
+          position: absolute;
+          left: 0;
+          top: 0;
+          animation: rotateFade 600ms ease forwards;
+        }
+
+        @keyframes rotateFade {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .card {
@@ -85,14 +123,14 @@ export default function Home() {
       `}</style>
 
       {/* HERO */}
-      <section style={{ padding: "140px 0 100px", position: "relative" }}>
+      <section style={{ padding: "140px 0 100px" }}>
         <div className="container">
           <div className="fade">
             <span
               style={{
                 letterSpacing: "0.18em",
                 fontSize: "0.8rem",
-                opacity: 0.75,
+                opacity: 0.7,
               }}
             >
               DAVENPORT WARDROBE
@@ -106,11 +144,14 @@ export default function Home() {
               lineHeight: 1.05,
               margin: "18px 0",
               fontWeight: 600,
+              position: "relative",
+              height: "5rem",
+              overflow: "hidden",
             }}
           >
-            Intelligent access
-            <br />
-            to modern style
+            <span key={index} className="rotatingText">
+              {phrases[index]}
+            </span>
           </h1>
 
           <p
@@ -122,9 +163,9 @@ export default function Home() {
               opacity: 0.78,
             }}
           >
-            Davenport Wardrobe delivers curated wardrobes designed around
-            who you are, how you live, and where you are going.
-            Less ownership. More precision. Zero clutter.
+            Davenport Wardrobe delivers curated wardrobes built around your
+            lifestyle, personal style, and the way you actually live. Less
+            ownership. More clarity. No clutter.
           </p>
 
           <div
@@ -146,9 +187,10 @@ export default function Home() {
         <div className="container">
           <h2 style={sectionTitle}>Designed around you</h2>
           <p style={sectionLead}>
-            Your wardrobe should reflect your lifestyle, not a generic trend.
-            Davenport Wardrobe uses intelligent systems to understand how you
-            move through the world and curate accordingly.
+            Your wardrobe should reflect how you move through the world. We use
+            intelligent systems to understand lifestyle, style preferences,
+            age, and cultural context to curate wardrobes that feel natural,
+            not forced.
           </p>
 
           <div
@@ -158,29 +200,18 @@ export default function Home() {
               gap: 22,
             }}
           >
-            <div className="card">
-              <h3 style={cardTitle}>Lifestyle-aware</h3>
-              <p style={cardText}>
-                Class, work, travel, nights out, gym. Your wardrobe adapts to
-                how your weeks actually look.
-              </p>
-            </div>
-
-            <div className="card">
-              <h3 style={cardTitle}>Style & cultural context</h3>
-              <p style={cardText}>
-                Recommendations reflect your personal taste, cultural
-                influences, and how you present yourself.
-              </p>
-            </div>
-
-            <div className="card">
-              <h3 style={cardTitle}>Age & fit intelligence</h3>
-              <p style={cardText}>
-                Fit evolves over time. Your wardrobe evolves with it, without
-                forcing constant purchases.
-              </p>
-            </div>
+            <InfoCard
+              title="Lifestyle-aware"
+              text="From class to work to nights out, your wardrobe adjusts to real life, not a static trend."
+            />
+            <InfoCard
+              title="Personal style & culture"
+              text="Recommendations reflect taste, identity, and how you want to present yourself."
+            />
+            <InfoCard
+              title="Fit & age intelligence"
+              text="Bodies change. Style evolves. Your wardrobe keeps up without starting over."
+            />
           </div>
         </div>
       </section>
@@ -197,62 +228,10 @@ export default function Home() {
               gap: 22,
             }}
           >
-            <Step
-              num="01"
-              title="Curated wardrobe"
-              text="We assemble a wardrobe tailored to your lifestyle and preferences. You can refine it before anything ships."
-            />
-            <Step
-              num="02"
-              title="Delivered to you"
-              text="Your wardrobe arrives when you need it. No hauling bags between seasons or locations."
-            />
-            <Step
-              num="03"
-              title="Live in it"
-              text="Wear pieces as part of your everyday life. Keep what works. Rotate what does not."
-            />
-            <Step
-              num="04"
-              title="Return or keep"
-              text="Send items back or purchase them as pricing adjusts with wear and age."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* SUSTAINABILITY */}
-      <section style={{ padding: "100px 0" }}>
-        <div className="container">
-          <h2 style={sectionTitle}>Built for longevity</h2>
-          <p style={sectionLead}>
-            The fashion industry produces too much, too fast.
-            Davenport Wardrobe is built around extended garment lifecycles,
-            reducing overproduction and waste while preserving quality.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 22,
-            }}
-          >
-            <div className="card">
-              <h3 style={cardTitle}>Extended lifecycles</h3>
-              <p style={cardText}>
-                Every piece is designed to move through multiple lives, not sit
-                unused in closets.
-              </p>
-            </div>
-
-            <div className="card">
-              <h3 style={cardTitle}>Smarter consumption</h3>
-              <p style={cardText}>
-                Fewer garments, worn longer, with intent. Better for you and
-                better for the planet.
-              </p>
-            </div>
+            <Step num="01" title="Curated wardrobe" text="We build a wardrobe around you. You refine it before anything ships." />
+            <Step num="02" title="Delivered" text="Your wardrobe arrives when you need it. No seasonal packing." />
+            <Step num="03" title="Live in it" text="Wear pieces naturally. Keep what works. Rotate what does not." />
+            <Step num="04" title="Return or keep" text="Return items or purchase them as pricing adjusts with wear." />
           </div>
         </div>
       </section>
@@ -260,20 +239,17 @@ export default function Home() {
       {/* WAITLIST */}
       <section id="waitlist" style={{ padding: "120px 0" }}>
         <div className="container">
-          <div
-            className="card"
-            style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}
-          >
+          <div className="card" style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
             <h2 style={{ fontSize: "2.4rem", marginBottom: 12 }}>
               Join the waitlist
             </h2>
             <p style={{ opacity: 0.75, marginBottom: 28 }}>
-              Early access. Priority wardrobe drops. Student benefits available
-              with .edu emails.
+              Early access, priority wardrobe drops, and student benefits for
+              verified .edu emails.
             </p>
 
             <form action="https://formspree.io/f/xqezkpza" method="POST">
-              <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
                 <input
                   type="email"
                   name="email"
@@ -295,7 +271,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer
         style={{
           padding: "48px",
@@ -310,6 +285,8 @@ export default function Home() {
   );
 }
 
+/* COMPONENTS */
+
 function Step({ num, title, text }: any) {
   return (
     <div className="card">
@@ -319,6 +296,17 @@ function Step({ num, title, text }: any) {
     </div>
   );
 }
+
+function InfoCard({ title, text }: any) {
+  return (
+    <div className="card">
+      <h3 style={cardTitle}>{title}</h3>
+      <p style={cardText}>{text}</p>
+    </div>
+  );
+}
+
+/* STYLES */
 
 const sectionTitle = {
   fontSize: "2.4rem",
