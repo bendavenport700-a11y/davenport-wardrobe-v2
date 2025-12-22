@@ -234,10 +234,8 @@ export default function Home() {
           >
             {/* ✅ Blend the two statements you like */}
             Davenport Wardrobe delivers curated wardrobes built around your
-            lifestyle, personal style, and the way you actually live — so you
-            can subscribe to a wardrobe that stays right for you instead of
-            constantly buying clothes that don’t fit, go out of style, or get
-            worn once. Less ownership. More clarity. No clutter.
+  lifestyle, personal style, and the way you actually live. Less
+  ownership. More clarity. No clutter.
           </p>
 
           <div
@@ -267,10 +265,10 @@ export default function Home() {
         <div className="container">
           <h2 style={sectionTitle}>Designed around you</h2>
           <p style={sectionLead}>
-            Davenport is built for the real reasons people end up wasting money
-            on clothes: it’s hard to know what to buy, life changes fast, trends
-            shift, and most purchases don’t get worn enough. We make dressing
-            easier — and you stay confident without the clutter.
+             Davenport is built for the way people actually dress. Style choices
+  change, life moves quickly, and a wardrobe needs to keep up. We make the
+  process simple, so getting dressed feels effortless, intentional, and
+  confident.
           </p>
 
           <div
@@ -296,52 +294,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HOW IT WORKS (RENAME + ADD LINE YOU LIKE) */}
-      <section style={{ padding: "100px 0" }}>
-        <div className="container">
-          <h2 style={sectionTitle}>How Davenport Works</h2>
+    {/* HOW IT WORKS */}
+<section style={{ padding: "100px 0" }}>
+  <div className="container">
+    <h2 style={sectionTitle}>How Davenport Works</h2>
 
-          <p style={{ ...sectionLead, marginBottom: 18 }}>
-            1. Choose a style you like <br />
-            2. Get a full wardrobe delivered <br />
-            3. Wear it, live in it <br />
-            4. Swap when life changes
-          </p>
+    <p
+      style={{
+        fontSize: "1.2rem",
+        fontWeight: 500,
+        opacity: 0.85,
+        marginBottom: 42,
+      }}
+    >
+      No overthinking. No waste.
+    </p>
 
-          <p style={{ opacity: 0.72, marginBottom: 42 }}>
-            No overthinking. No waste.
-          </p>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        gap: 22,
+      }}
+    >
+      <div className="stepFade d1">
+        <Step
+          num="01"
+          title="Choose a style you like"
+          text="Select a direction that feels right. We build a wardrobe that works together."
+        />
+      </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: 22,
-            }}
-          >
-            <Step
-              num="01"
-              title="Choose a style you like"
-              text="Pick a look that feels right. We build a wardrobe that makes sense together."
-            />
-            <Step
-              num="02"
-              title="Get a full wardrobe delivered"
-              text="Your wardrobe arrives when you need it. No seasonal packing."
-            />
-            <Step
-              num="03"
-              title="Wear it, live in it"
-              text="Wear pieces naturally. Keep what works. Rotate what does not."
-            />
-            <Step
-              num="04"
-              title="Swap when life changes"
-              text="Swap for new seasons, new sizes, new phases — without starting over."
-            />
-          </div>
-        </div>
-      </section>
+      <div className="stepFade d2">
+        <Step
+          num="02"
+          title="Get a full wardrobe delivered"
+          text="Your wardrobe arrives when and where you need it. No seasonal packing."
+        />
+      </div>
+
+      <div className="stepFade d3">
+        <Step
+          num="03"
+          title="Wear it, live in it"
+          text="Wear the pieces naturally. You’ll quickly know what works."
+        />
+      </div>
+
+      <div className="stepFade d4">
+        <Step
+          num="04"
+          title="Swap when life changes"
+          text="Rotate pieces as your life, seasons, or needs change."
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* WAITLIST */}
       <section id="waitlist" style={{ padding: "120px 0" }}>
