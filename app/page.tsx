@@ -15,7 +15,6 @@ export default function Home() {
   const [index, setIndex] = React.useState(0);
 
   React.useEffect(() => {
-    // Respect reduced motion
     const prefersReduced =
       typeof window !== "undefined" &&
       window.matchMedia &&
@@ -25,7 +24,7 @@ export default function Home() {
 
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % phrases.length);
-    }, 4200); // slower rotation (you asked)
+    }, 4200); // ✅ slower (was 2800)
     return () => clearInterval(interval);
   }, []);
 
@@ -51,12 +50,12 @@ export default function Home() {
           padding: 0 24px;
         }
 
-        /* entrance */
         .fade {
           opacity: 0;
           transform: translateY(16px);
           animation: fadeIn 0.9s ease forwards;
         }
+
         .fade.d1 { animation-delay: .15s; }
         .fade.d2 { animation-delay: .3s; }
         .fade.d3 { animation-delay: .45s; }
@@ -66,38 +65,44 @@ export default function Home() {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        /* rotating headline animation */
         .rotatingText {
-          display: inline-block;
+          position: absolute;
+          left: 0;
+          top: 0;
           animation: rotateFade 650ms ease forwards;
           will-change: transform, opacity;
         }
 
         @keyframes rotateFade {
-          from { opacity: 0; transform: translateY(14px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
-        /* subtle luxury shimmer/glow behind hero */
-        .heroGlow {
+        /* ✅ Subtle luxury animation (very light, matches your style) */
+        .softGlow {
           position: absolute;
-          inset: -200px -80px auto -80px;
+          inset: -220px -120px auto -120px;
           height: 520px;
           pointer-events: none;
           background: radial-gradient(closest-side at 50% 50%,
             rgba(255,255,255,0.08),
             rgba(255,255,255,0.00) 65%);
           filter: blur(10px);
-          opacity: 0.9;
-          animation: glowFloat 9s ease-in-out infinite;
+          opacity: 0.85;
+          animation: glowFloat 10s ease-in-out infinite;
         }
 
         @keyframes glowFloat {
-          0%, 100% { transform: translateY(0px); opacity: 0.85; }
-          50% { transform: translateY(14px); opacity: 1; }
+          0%, 100% { transform: translateY(0px); opacity: 0.80; }
+          50% { transform: translateY(14px); opacity: 0.95; }
         }
 
-        /* cards */
         .card {
           background: linear-gradient(
             180deg,
@@ -107,17 +112,18 @@ export default function Home() {
           border: 1px solid rgba(255,255,255,0.12);
           border-radius: 18px;
           padding: 28px;
-          transition: transform .3s ease, border-color .3s ease, background .3s ease;
+          transition: transform .3s ease, border-color .3s ease;
           position: relative;
           overflow: hidden;
         }
 
+        /* ✅ little light sweep on hover (still subtle) */
         .card::after {
           content: "";
           position: absolute;
           inset: 0;
-          background: radial-gradient(800px 220px at 50% 0%,
-            rgba(255,255,255,0.06),
+          background: radial-gradient(700px 220px at 50% 0%,
+            rgba(255,255,255,0.07),
             rgba(255,255,255,0.00) 60%);
           opacity: 0;
           transition: opacity .35s ease;
@@ -127,12 +133,12 @@ export default function Home() {
         .card:hover {
           transform: translateY(-4px);
           border-color: rgba(255,255,255,0.22);
-          background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.02));
         }
 
-        .card:hover::after { opacity: 1; }
+        .card:hover::after {
+          opacity: 1;
+        }
 
-        /* buttons */
         .btnPrimary {
           background: #ffffff;
           color: #0b0b0c;
@@ -155,7 +161,7 @@ export default function Home() {
           border: 1px solid rgba(255,255,255,0.22);
           background: rgba(255,255,255,0.04);
           font-weight: 600;
-          transition: background .2s ease, transform .2s ease;
+          transition: background .2s ease, transform .2s ease, opacity .2s ease;
           display: inline-flex;
           align-items: center;
           gap: 8px;
@@ -166,26 +172,25 @@ export default function Home() {
           transform: translateY(-1px);
         }
 
-        /* section divider line */
-        .divider {
-          height: 1px;
-          background: linear-gradient(90deg,
-            rgba(255,255,255,0.0),
-            rgba(255,255,255,0.14),
-            rgba(255,255,255,0.0));
-          margin: 0 auto;
-          max-width: 1120px;
-        }
-
-        /* mobile tweaks */
-        @media (max-width: 520px) {
+        /* ✅ MOBILE FIX: prevent headline clipping */
+        @media (max-width: 560px) {
           .container { padding: 0 18px; }
+          .heroTitle {
+            height: auto !important;
+            overflow: visible !important;
+          }
+          .rotatingText {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            display: inline-block;
+          }
         }
       `}</style>
 
       {/* HERO */}
-      <section style={{ padding: "140px 0 90px", position: "relative" }}>
-        <div className="heroGlow" />
+      <section style={{ padding: "140px 0 100px", position: "relative" }}>
+        <div className="softGlow" />
         <div className="container">
           <div className="fade">
             <span
@@ -195,20 +200,22 @@ export default function Home() {
                 opacity: 0.7,
               }}
             >
+              {/* ✅ Change to Davenport */}
               DAVENPORT
             </span>
           </div>
 
-          {/* IMPORTANT FIX: no fixed height, no overflow hidden, so mobile never clips */}
           <h1
-            className="fade d1"
+            className="fade d1 heroTitle"
             style={{
-              fontSize: "clamp(2.4rem, 6vw, 4.8rem)",
+              fontSize: "clamp(3rem, 6vw, 4.8rem)",
               lineHeight: 1.05,
               margin: "18px 0",
               fontWeight: 600,
+              position: "relative",
+              height: "5rem",
+              overflow: "hidden",
               letterSpacing: "-0.02em",
-              maxWidth: 980,
             }}
           >
             <span key={index} className="rotatingText">
@@ -220,72 +227,50 @@ export default function Home() {
             className="fade d2"
             style={{
               maxWidth: 760,
-              fontSize: "1.18rem",
-              lineHeight: 1.7,
-              opacity: 0.8,
+              fontSize: "1.25rem",
+              lineHeight: 1.65,
+              opacity: 0.78,
             }}
           >
-            Davenport Wardrobe lets you subscribe to a lifestyle-ready wardrobe —
-            curated around your personal style and the way you actually live —
-            so you stop buying clothes that don’t fit, go out of style, or get
+            {/* ✅ Blend the two statements you like */}
+            Davenport Wardrobe delivers curated wardrobes built around your
+            lifestyle, personal style, and the way you actually live — so you
+            can subscribe to a wardrobe that stays right for you instead of
+            constantly buying clothes that don’t fit, go out of style, or get
             worn once. Less ownership. More clarity. No clutter.
           </p>
 
           <div
             className="fade d3"
-            style={{
-              display: "flex",
-              gap: 14,
-              marginTop: 32,
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
+            style={{ display: "flex", gap: 14, marginTop: 32, flexWrap: "wrap" }}
           >
             <a href="#waitlist" className="btnPrimary">
               Join the waitlist
             </a>
             <Link href="/pricing" className="btnGhost">
-              View pricing <span style={{ opacity: 0.7 }}>→</span>
+              Pricing <span style={{ opacity: 0.7 }}>→</span>
             </Link>
             <Link href="/faq" className="btnGhost">
               Learn more <span style={{ opacity: 0.7 }}>→</span>
             </Link>
           </div>
 
-          {/* microproof */}
-          <div
-            className="fade d4"
-            style={{
-              marginTop: 22,
-              opacity: 0.62,
-              fontSize: "0.95rem",
-              display: "flex",
-              gap: 18,
-              flexWrap: "wrap",
-            }}
-          >
-            <span>Built for college + real life</span>
-            <span>•</span>
-            <span>Swaps when life changes</span>
-            <span>•</span>
-            <span>Less waste, more wear</span>
+          {/* ✅ small “proof” line, still minimal */}
+          <div className="fade d4" style={{ marginTop: 18, opacity: 0.62, lineHeight: 1.7 }}>
+            Built for college, travel, seasons, and change — without overthinking.
           </div>
         </div>
       </section>
 
-      <div className="divider" />
-
-      {/* DESIGNED AROUND YOU (REWRITTEN CONTENT) */}
+      {/* AI SECTION (CONTENT UPDATED, LESS CULTURE, NO FIT&AGE) */}
       <section style={{ padding: "100px 0" }}>
         <div className="container">
-          <h2 style={sectionTitle} className="fade">
-            Designed around real life
-          </h2>
-          <p style={sectionLead} className="fade d1">
-            Buying clothes sounds simple — until it isn’t. Davenport exists for
-            the moments when ownership becomes inefficient: new seasons, travel,
-            college, weight changes, style changes, and the constant pressure to
-            look put-together. We take away the stress and make it effortless.
+          <h2 style={sectionTitle}>Designed around you</h2>
+          <p style={sectionLead}>
+            Davenport is built for the real reasons people end up wasting money
+            on clothes: it’s hard to know what to buy, life changes fast, trends
+            shift, and most purchases don’t get worn enough. We make dressing
+            easier — and you stay confident without the clutter.
           </p>
 
           <div
@@ -297,33 +282,33 @@ export default function Home() {
           >
             <InfoCard
               title="No decision fatigue"
-              text="Stop guessing what to buy. You get a wardrobe that makes sense together — built to match your vibe."
+              text="Stop guessing what to buy. You get a wardrobe that works together — built around your style."
             />
             <InfoCard
-              title="Always right for the moment"
-              text="College, seasons, trips, growth — your wardrobe adjusts when life does. No packing stress. No re-buying."
+              title="Built for timing changes"
+              text="College, seasons, travel, weight changes — your wardrobe adjusts when life does. No re-buying cycle."
             />
             <InfoCard
               title="Less waste. More confidence."
-              text="Wear what you actually like. Rotate what you don’t. Reduce fast-fashion waste without sacrificing style."
+              text="Wear what you actually like. Rotate what you don’t. Look put-together without spending on mistakes."
             />
           </div>
         </div>
       </section>
 
-      <div className="divider" />
-
-      {/* HOW IT WORKS (YOUR EXACT STEP NAMING + ADDITION) */}
+      {/* HOW IT WORKS (RENAME + ADD LINE YOU LIKE) */}
       <section style={{ padding: "100px 0" }}>
         <div className="container">
           <h2 style={sectionTitle}>How Davenport Works</h2>
-          <p style={{ ...sectionLead, marginBottom: 28 }}>
+
+          <p style={{ ...sectionLead, marginBottom: 18 }}>
             1. Choose a style you like <br />
             2. Get a full wardrobe delivered <br />
             3. Wear it, live in it <br />
             4. Swap when life changes
           </p>
-          <p style={{ opacity: 0.72, marginTop: -8, marginBottom: 42 }}>
+
+          <p style={{ opacity: 0.72, marginBottom: 42 }}>
             No overthinking. No waste.
           </p>
 
@@ -336,104 +321,34 @@ export default function Home() {
           >
             <Step
               num="01"
-              title="Choose your style"
-              text="Pick a direction you actually like. We build a wardrobe that matches, not random pieces."
+              title="Choose a style you like"
+              text="Pick a look that feels right. We build a wardrobe that makes sense together."
             />
             <Step
               num="02"
-              title="Delivered to you"
-              text="Ship to campus, home, or wherever you are. No seasonal packing stress."
+              title="Get a full wardrobe delivered"
+              text="Your wardrobe arrives when you need it. No seasonal packing."
             />
             <Step
               num="03"
-              title="Wear it naturally"
-              text="Live in the pieces. You’ll know what works fast when it’s your real life."
+              title="Wear it, live in it"
+              text="Wear pieces naturally. Keep what works. Rotate what does not."
             />
             <Step
               num="04"
               title="Swap when life changes"
-              text="Rotate what doesn’t fit your life anymore. Keep favorites if you want."
+              text="Swap for new seasons, new sizes, new phases — without starting over."
             />
           </div>
         </div>
       </section>
-
-      <div className="divider" />
-
-      {/* PRICING PREVIEW */}
-      <section style={{ padding: "100px 0" }}>
-        <div className="container">
-          <h2 style={sectionTitle}>Flexible tiers</h2>
-          <p style={sectionLead}>
-            Start simple. Upgrade anytime. Built to match how often you want to
-            rotate and how premium you want the wardrobe to be.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: 22,
-            }}
-          >
-            <TierCard
-              title="Core"
-              price="$79–$99 / mo"
-              bullets={[
-                "Everyday casual wardrobe",
-                "1 swap per month",
-                "Best for college + simple routines",
-              ]}
-            />
-            <TierCard
-              title="Flex"
-              price="$129–$149 / mo"
-              bullets={[
-                "More pieces, more rotation",
-                "2 swaps per month",
-                "Best for social + changing weeks",
-              ]}
-              featured
-            />
-            <TierCard
-              title="Premium"
-              price="$199–$249 / mo"
-              bullets={[
-                "New-only wardrobe option",
-                "Unlimited swaps (launch perk)",
-                "Best for brand-focused lifestyle",
-              ]}
-            />
-          </div>
-
-          <div style={{ marginTop: 26, display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <Link href="/pricing" className="btnPrimary" style={{ display: "inline-block" } as any}>
-              View pricing details
-            </Link>
-            <a href="#waitlist" className="btnGhost">
-              Join waitlist <span style={{ opacity: 0.7 }}>→</span>
-            </a>
-          </div>
-
-          <p style={{ opacity: 0.6, marginTop: 14, lineHeight: 1.6 }}>
-            *Pricing shown as expected launch ranges. Final tiers may adjust
-            based on inventory and region.
-          </p>
-        </div>
-      </section>
-
-      <div className="divider" />
 
       {/* WAITLIST */}
       <section id="waitlist" style={{ padding: "120px 0" }}>
         <div className="container">
           <div
             className="card"
-            style={{
-              maxWidth: 760,
-              margin: "0 auto",
-              textAlign: "center",
-            }}
+            style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}
           >
             <h2 style={{ fontSize: "2.4rem", marginBottom: 12 }}>
               Join the waitlist
@@ -464,16 +379,11 @@ export default function Home() {
                     background: "#0c0c0d",
                     border: "1px solid rgba(255,255,255,0.2)",
                     color: "#fff",
-                    outline: "none",
                   }}
                 />
                 <button className="btnPrimary">Join</button>
               </div>
             </form>
-
-            <p style={{ marginTop: 18, opacity: 0.6, fontSize: "0.92rem" }}>
-              We’ll never spam you. One-click unsubscribe anytime.
-            </p>
           </div>
         </div>
       </section>
@@ -513,54 +423,6 @@ function InfoCard({ title, text }: any) {
   );
 }
 
-function TierCard({
-  title,
-  price,
-  bullets,
-  featured,
-}: {
-  title: string;
-  price: string;
-  bullets: string[];
-  featured?: boolean;
-}) {
-  return (
-    <div
-      className="card"
-      style={{
-        borderColor: featured ? "rgba(255,255,255,0.26)" : "rgba(255,255,255,0.12)",
-        transform: featured ? "translateY(-2px)" : undefined,
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-        <h3 style={{ ...cardTitle, fontSize: "1.25rem" }}>{title}</h3>
-        {featured ? (
-          <span
-            style={{
-              fontSize: "0.78rem",
-              letterSpacing: "0.14em",
-              opacity: 0.75,
-              alignSelf: "center",
-            }}
-          >
-            MOST POPULAR
-          </span>
-        ) : null}
-      </div>
-
-      <div style={{ marginTop: 10, fontSize: "1.05rem", opacity: 0.9 }}>
-        {price}
-      </div>
-
-      <ul style={{ marginTop: 14, paddingLeft: 18, opacity: 0.78, lineHeight: 1.8 }}>
-        {bullets.map((b) => (
-          <li key={b}>{b}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 /* STYLES */
 
 const sectionTitle = {
@@ -569,7 +431,7 @@ const sectionTitle = {
 };
 
 const sectionLead = {
-  maxWidth: 860,
+  maxWidth: 820,
   opacity: 0.75,
   fontSize: "1.1rem",
   lineHeight: 1.7,

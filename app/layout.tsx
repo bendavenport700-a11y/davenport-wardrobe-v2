@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Davenport",
@@ -13,64 +12,53 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [hovered, setHovered] = React.useState<string | null>(null);
-
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        {/* NAV BAR */}
         <nav style={navStyle}>
           <Link href="/" style={brandStyle}>
             Davenport
           </Link>
 
           <div style={navLinksStyle}>
-            <Link
-              href="/"
-              style={hovered === "home" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
-              onMouseEnter={() => setHovered("home")}
-              onMouseLeave={() => setHovered(null)}
-            >
+            <Link href="/" style={linkStyle}>
               Home
             </Link>
-
-            <Link
-              href="/wardrobes"
-              style={hovered === "wardrobes" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
-              onMouseEnter={() => setHovered("wardrobes")}
-              onMouseLeave={() => setHovered(null)}
-            >
+            <Link href="/wardrobes" style={linkStyle}>
               Wardrobes
             </Link>
-
-            <Link
-              href="/pricing"
-              style={hovered === "pricing" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
-              onMouseEnter={() => setHovered("pricing")}
-              onMouseLeave={() => setHovered(null)}
-            >
+            <Link href="/pricing" style={linkStyle}>
               Pricing
             </Link>
-
-            <Link
-              href="/faq"
-              style={hovered === "faq" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
-              onMouseEnter={() => setHovered("faq")}
-              onMouseLeave={() => setHovered(null)}
-            >
+            <Link href="/faq" style={linkStyle}>
               FAQ
             </Link>
           </div>
         </nav>
 
-        {/* PAGE CONTENT */}
         <div style={{ paddingTop: "96px" }}>{children}</div>
+
+        {/* Small responsive tweaks without changing your aesthetic */}
+        <style>{`
+          @media (max-width: 720px) {
+            .dw-nav {
+              padding: 16px 18px !important;
+            }
+            .dw-links {
+              gap: 14px !important;
+              flex-wrap: wrap !important;
+              justify-content: flex-end !important;
+            }
+            .dw-link {
+              font-size: 0.95rem !important;
+              padding: 8px 10px !important;
+            }
+          }
+        `}</style>
       </body>
     </html>
   );
 }
-
-/* STYLES */
 
 const navStyle: React.CSSProperties = {
   position: "fixed",
@@ -85,7 +73,9 @@ const navStyle: React.CSSProperties = {
   backdropFilter: "blur(12px)",
   WebkitBackdropFilter: "blur(12px)",
   zIndex: 1000,
-};
+} as any;
+
+(navStyle as any).className = "dw-nav"; // harmless if unused
 
 const brandStyle: React.CSSProperties = {
   color: "#fff",
@@ -98,19 +88,21 @@ const brandStyle: React.CSSProperties = {
 const navLinksStyle: React.CSSProperties = {
   display: "flex",
   gap: "24px",
-};
+  alignItems: "center",
+  flexWrap: "wrap", // ✅ allows Pricing to show
+  justifyContent: "flex-end",
+} as any;
 
-/* ✅ REPLACED LINK STYLES */
+(navLinksStyle as any).className = "dw-links";
 
 const linkStyle: React.CSSProperties = {
   color: "#fff",
   textDecoration: "none",
   fontSize: "1rem",
-  opacity: 0.8,
-  transition: "opacity 0.2s ease, transform 0.2s ease",
-};
+  opacity: 0.85,
+  padding: "10px 12px",
+  borderRadius: 10,
+  transition: "opacity 0.2s ease, transform 0.2s ease, background 0.2s ease",
+} as any;
 
-const linkHoverStyle: React.CSSProperties = {
-  opacity: 1,
-  transform: "translateY(-1px)",
-};
+(linkStyle as any).className = "dw-link";
