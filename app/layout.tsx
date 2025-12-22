@@ -1,9 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
+import React from "react";
 
 export const metadata: Metadata = {
-  title: "Davenport Wardrobe",
+  title: "Davenport",
   description: "A smarter way to dress",
 };
 
@@ -12,23 +13,51 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [hovered, setHovered] = React.useState<string | null>(null);
+
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
         {/* NAV BAR */}
         <nav style={navStyle}>
           <Link href="/" style={brandStyle}>
-            Davenport Wardrobe
+            Davenport
           </Link>
 
           <div style={navLinksStyle}>
-            <Link href="/" style={linkStyle}>
+            <Link
+              href="/"
+              style={hovered === "home" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
+              onMouseEnter={() => setHovered("home")}
+              onMouseLeave={() => setHovered(null)}
+            >
               Home
             </Link>
-            <Link href="/wardrobes" style={linkStyle}>
+
+            <Link
+              href="/wardrobes"
+              style={hovered === "wardrobes" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
+              onMouseEnter={() => setHovered("wardrobes")}
+              onMouseLeave={() => setHovered(null)}
+            >
               Wardrobes
             </Link>
-            <Link href="/faq" style={linkStyle}>
+
+            <Link
+              href="/pricing"
+              style={hovered === "pricing" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
+              onMouseEnter={() => setHovered("pricing")}
+              onMouseLeave={() => setHovered(null)}
+            >
+              Pricing
+            </Link>
+
+            <Link
+              href="/faq"
+              style={hovered === "faq" ? { ...linkStyle, ...linkHoverStyle } : linkStyle}
+              onMouseEnter={() => setHovered("faq")}
+              onMouseLeave={() => setHovered(null)}
+            >
               FAQ
             </Link>
           </div>
@@ -40,6 +69,8 @@ export default function RootLayout({
     </html>
   );
 }
+
+/* STYLES */
 
 const navStyle: React.CSSProperties = {
   position: "fixed",
@@ -61,6 +92,7 @@ const brandStyle: React.CSSProperties = {
   fontSize: "1.25rem",
   textDecoration: "none",
   fontWeight: 600,
+  letterSpacing: "-0.01em",
 };
 
 const navLinksStyle: React.CSSProperties = {
@@ -68,9 +100,17 @@ const navLinksStyle: React.CSSProperties = {
   gap: "24px",
 };
 
+/* ✅ REPLACED LINK STYLES */
+
 const linkStyle: React.CSSProperties = {
   color: "#fff",
   textDecoration: "none",
   fontSize: "1rem",
-  opacity: 0.85,
+  opacity: 0.8,
+  transition: "opacity 0.2s ease, transform 0.2s ease",
+};
+
+const linkHoverStyle: React.CSSProperties = {
+  opacity: 1,
+  transform: "translateY(-1px)",
 };
