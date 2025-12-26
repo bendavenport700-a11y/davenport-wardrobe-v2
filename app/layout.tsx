@@ -18,47 +18,57 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <nav style={navStyle}>
-          <Link href="/" style={brandStyle}>
+        <nav style={navStyle} className="dw-nav">
+          <Link href="/" style={brandStyle} className="dw-brand">
             Davenport
           </Link>
 
-          <div style={navLinksStyle}>
-            <Link href="/" style={linkStyle}>
+          <div style={navLinksStyle} className="dw-links">
+            <Link href="/" style={linkStyle} className="dw-link">
               Home
             </Link>
             <div style={dropdownStyle} className="dw-dropdown">
-              <Link href="/wardrobes" style={linkStyle}>
+              <Link href="/wardrobes" style={linkStyle} className="dw-link">
                 Wardrobes
               </Link>
               <div className="dw-menu">
-                <Link href="/wardrobes/new-arrivals" style={submenuLinkStyle}>
+                <Link
+                  href="/wardrobes/new-arrivals"
+                  style={submenuLinkStyle}
+                  className="dw-link"
+                >
                   New Arrivals
                 </Link>
-                <Link href="/wardrobes" style={submenuLinkStyle}>
+                <Link
+                  href="/wardrobes"
+                  style={submenuLinkStyle}
+                  className="dw-link"
+                >
                   Explore Wardrobes
                 </Link>
               </div>
             </div>
-            <Link href="/suitcase" style={linkStyle}>
+            <Link href="/suitcase" style={linkStyle} className="dw-link">
               Suitcase
             </Link>
-            <Link href="/how-it-works" style={linkStyle}>
+            <Link href="/how-it-works" style={linkStyle} className="dw-link">
               How It Works
             </Link>
-            <Link href="/sustainability" style={linkStyle}>
+            <Link href="/sustainability" style={linkStyle} className="dw-link">
               Sustainability
             </Link>
-            <Link href="/faq" style={linkStyle}>
+            <Link href="/faq" style={linkStyle} className="dw-link">
               FAQ
             </Link>
-            <Link href="/account" style={linkStyle}>
+            <Link href="/account" style={linkStyle} className="dw-link">
               Account
             </Link>
           </div>
         </nav>
 
-        <div style={contentStyle}>{children}</div>
+        <div style={contentStyle} className="dw-content">
+          {children}
+        </div>
 
         {/* Small responsive tweaks without changing your aesthetic */}
         <style>{`
@@ -72,6 +82,7 @@ export default function RootLayout({
               justify-content: flex-start !important;
               overflow-x: auto !important;
               padding-bottom: 6px !important;
+              max-width: calc(100% - 90px);
             }
             .dw-link {
               font-size: 0.95rem !important;
@@ -83,7 +94,7 @@ export default function RootLayout({
               min-width: 180px;
             }
             .dw-content {
-              padding-top: 120px !important;
+              padding-top: 132px !important;
             }
           }
           .dw-dropdown {
