@@ -260,15 +260,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI SECTION (CONTENT UPDATED, LESS CULTURE, NO FIT&AGE) */}
+      {/* VALUE SECTION */}
       <section style={{ padding: "100px 0" }}>
         <div className="container">
           <h2 style={sectionTitle}>Designed around you</h2>
           <p style={sectionLead}>
-             Davenport is built for the way people actually dress. Style choices
-  change, life moves quickly, and a wardrobe needs to keep up. We make the
-  process simple, so getting dressed feels effortless, intentional, and
-  confident.
+            Wardrobes that adapt to your life, not the other way around. Clear,
+            modern looks without overthinking or overbuying.
           </p>
 
           <div
@@ -280,7 +278,7 @@ export default function Home() {
           >
             <InfoCard
               title="No decision fatigue"
-              text="Stop guessing what to buy. You get a wardrobe that works together — built around your style."
+              text="A wardrobe that already works together. Swap when you want variety."
             />
             <InfoCard
               title="Built for timing changes"
@@ -288,70 +286,38 @@ export default function Home() {
             />
             <InfoCard
               title="Less waste. More confidence."
-              text="Wear what you actually like. Rotate what you don’t. Look put-together without spending on mistakes."
+              text="Wear what you actually like. Rotate what you don’t. Keep the closet calm."
             />
           </div>
         </div>
       </section>
 
-    {/* HOW IT WORKS */}
-<section style={{ padding: "100px 0" }}>
-  <div className="container">
-    <h2 style={sectionTitle}>How Davenport Works</h2>
-
-    <p
-      style={{
-        fontSize: "1.2rem",
-        fontWeight: 500,
-        opacity: 0.85,
-        marginBottom: 42,
-      }}
-    >
-      No overthinking. No waste.
-    </p>
-
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        gap: 22,
-      }}
-    >
-      <div className="stepFade d1">
-        <Step
-          num="01"
-          title="Choose a style you like"
-          text="Select a direction that feels right. We build a wardrobe that works together."
-        />
-      </div>
-
-      <div className="stepFade d2">
-        <Step
-          num="02"
-          title="Get a full wardrobe delivered"
-          text="Your wardrobe arrives when and where you need it. No seasonal packing."
-        />
-      </div>
-
-      <div className="stepFade d3">
-        <Step
-          num="03"
-          title="Wear it, live in it"
-          text="Wear the pieces naturally. You’ll quickly know what works."
-        />
-      </div>
-
-      <div className="stepFade d4">
-        <Step
-          num="04"
-          title="Swap when life changes"
-          text="Rotate pieces as your life, seasons, or needs change."
-        />
-      </div>
-    </div>
-  </div>
-</section>
-
+      {/* QUICK PATHS */}
+      <section style={{ padding: "80px 0 40px" }}>
+        <div className="container">
+          <h2 style={sectionTitle}>Get started fast</h2>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 18,
+            }}
+          >
+            <Link href="/wardrobes/new-arrivals" className="card">
+              <h3 style={cardTitle}>See new drops</h3>
+              <p style={cardText}>Fresh arrivals, never worn, ready to ship.</p>
+            </Link>
+            <Link href="/wardrobes" className="card">
+              <h3 style={cardTitle}>Explore wardrobes</h3>
+              <p style={cardText}>Templates for campus, travel, work, and weekends.</p>
+            </Link>
+            <Link href="/suitcase" className="card">
+              <h3 style={cardTitle}>Pack your suitcase</h3>
+              <p style={cardText}>Preview a rotation and swap before it leaves.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
 
 
       {/* WAITLIST */}
@@ -415,26 +381,10 @@ export default function Home() {
 
 /* COMPONENTS */
 
-type StepProps = {
-  num: string;
-  title: string;
-  text: string;
-};
-
 type InfoCardProps = {
   title: string;
   text: string;
 };
-
-function Step({ num, title, text }: StepProps) {
-  return (
-    <div className="card">
-      <div style={{ opacity: 0.5, marginBottom: 8 }}>{num}</div>
-      <h3 style={cardTitle}>{title}</h3>
-      <p style={cardText}>{text}</p>
-    </div>
-  );
-}
 
 function InfoCard({ title, text }: InfoCardProps) {
   return (
