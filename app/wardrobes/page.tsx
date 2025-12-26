@@ -253,18 +253,25 @@ export default function WardrobesPage() {
           box-shadow: 0 18px 60px rgba(0,0,0,0.55);
         }
 
-        .wardrobeBg {
+        .slideshow {
           position: absolute;
           inset: 0;
+          overflow: hidden;
+        }
+
+        .slideTrack {
+          height: 100%;
+          display: flex;
+          transition: transform .9s ease;
+        }
+
+        .slidePanel {
+          min-width: 100%;
+          height: 100%;
           background-size: cover;
           background-position: center;
           filter: brightness(0.82);
-          transition: transform .6s ease, filter .6s ease;
-        }
-
-        .wardrobeCard:hover .wardrobeBg {
-          transform: scale(1.06);
-          filter: brightness(0.9);
+          transform: scale(1.03);
         }
 
         .overlay {
@@ -750,26 +757,30 @@ function WardrobeCard({
   openLightbox: (images: string[], index: number, title: string) => void;
 }) {
   const [activeThumb, setActiveThumb] = React.useState(0);
-  const [hovered, setHovered] = React.useState(false);
 
   React.useEffect(() => {
-    if (hovered) return;
     const id = setInterval(() => {
       setActiveThumb((prev) => (prev + 1) % wardrobe.gallery.length);
-    }, 2600);
+    }, 2400);
     return () => clearInterval(id);
-  }, [hovered, wardrobe.gallery.length]);
+  }, [wardrobe.gallery.length]);
 
   return (
-    <div
-      className="wardrobeCard"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div
-        className="wardrobeBg"
-        style={{ backgroundImage: `url(${wardrobe.cover})` }}
-      />
+    <div className="wardrobeCard">
+      <div className="slideshow">
+        <div
+          className="slideTrack"
+          style={{ transform: `translateX(-${activeThumb * 100}%)` }}
+        >
+          {wardrobe.gallery.map((src) => (
+            <div
+              key={src}
+              className="slidePanel"
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+        </div>
+      </div>
       <div className="overlay" />
 
       <div className="content">
