@@ -76,13 +76,9 @@ export default function RootLayout({
               padding: 8px 10px !important;
             }
             .dw-menu {
-              position: static !important;
-              opacity: 1 !important;
-              visibility: visible !important;
-              transform: none !important;
-              box-shadow: none !important;
-              background: transparent !important;
-              padding: 6px 0 0 0 !important;
+              right: 0;
+              left: auto;
+              min-width: 180px;
             }
           }
           .dw-dropdown {
