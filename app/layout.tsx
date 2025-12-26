@@ -58,7 +58,7 @@ export default function RootLayout({
           </div>
         </nav>
 
-        <div style={{ paddingTop: "96px" }}>{children}</div>
+        <div style={contentStyle}>{children}</div>
 
         {/* Small responsive tweaks without changing your aesthetic */}
         <style>{`
@@ -67,9 +67,11 @@ export default function RootLayout({
               padding: 16px 18px !important;
             }
             .dw-links {
-              gap: 14px !important;
-              flex-wrap: wrap !important;
-              justify-content: flex-end !important;
+              gap: 10px !important;
+              flex-wrap: nowrap !important;
+              justify-content: flex-start !important;
+              overflow-x: auto !important;
+              padding-bottom: 6px !important;
             }
             .dw-link {
               font-size: 0.95rem !important;
@@ -79,6 +81,9 @@ export default function RootLayout({
               right: 0;
               left: auto;
               min-width: 180px;
+            }
+            .dw-content {
+              padding-top: 120px !important;
             }
           }
           .dw-dropdown {
@@ -169,4 +174,9 @@ const submenuLinkStyle: React.CSSProperties = {
   padding: "10px 12px",
   whiteSpace: "nowrap",
   background: "rgba(255,255,255,0.03)",
+};
+
+const contentStyle: StyleWithClass = {
+  paddingTop: "96px",
+  className: "dw-content",
 };
