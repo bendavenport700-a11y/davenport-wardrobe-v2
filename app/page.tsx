@@ -26,7 +26,7 @@ export default function Home() {
       setIndex((prev) => (prev + 1) % phrases.length);
     }, 4200); // ✅ slower (was 2800)
     return () => clearInterval(interval);
-  }, []);
+  }, [phrases.length]);
 
   return (
     <main
@@ -415,7 +415,18 @@ export default function Home() {
 
 /* COMPONENTS */
 
-function Step({ num, title, text }: any) {
+type StepProps = {
+  num: string;
+  title: string;
+  text: string;
+};
+
+type InfoCardProps = {
+  title: string;
+  text: string;
+};
+
+function Step({ num, title, text }: StepProps) {
   return (
     <div className="card">
       <div style={{ opacity: 0.5, marginBottom: 8 }}>{num}</div>
@@ -425,7 +436,7 @@ function Step({ num, title, text }: any) {
   );
 }
 
-function InfoCard({ title, text }: any) {
+function InfoCard({ title, text }: InfoCardProps) {
   return (
     <div className="card">
       <h3 style={cardTitle}>{title}</h3>

@@ -76,6 +76,68 @@ export default function FAQPage() {
           font-weight: 500;
           opacity: 0.9;
         }
+
+        .formCard {
+          margin-top: 16px;
+          padding: 22px;
+          border-radius: 18px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: linear-gradient(
+            180deg,
+            rgba(255,255,255,0.06),
+            rgba(255,255,255,0.02)
+          );
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .formGrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 12px;
+        }
+
+        .input {
+          width: 100%;
+          padding: 12px 14px;
+          border-radius: 12px;
+          border: 1px solid rgba(255,255,255,0.14);
+          background: rgba(255,255,255,0.05);
+          color: #f1f1f1;
+        }
+
+        .textarea {
+          min-height: 120px;
+          resize: vertical;
+        }
+
+        .formActions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .btnSubmit {
+          border: none;
+          background: #ffffff;
+          color: #0b0b0c;
+          padding: 12px 18px;
+          border-radius: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: transform .2s ease, opacity .2s ease;
+        }
+
+        .btnSubmit:hover {
+          transform: translateY(-2px);
+          opacity: 0.95;
+        }
+
+        .formHint {
+          opacity: 0.65;
+        }
       `}</style>
 
       <div className="container">
@@ -157,6 +219,36 @@ export default function FAQPage() {
             <div className="brandCard">Nike</div>
             <div className="brandCard">Levi’s</div>
             <div className="brandCard">Vintage & Archive</div>
+          </div>
+        </div>
+
+        {/* ASK A QUESTION */}
+        <div className="fade d3" style={{ marginTop: 72 }}>
+          <h2 style={{ fontSize: "2.1rem", marginBottom: 10 }}>
+            Ask a question
+          </h2>
+          <p style={{ opacity: 0.72, maxWidth: 640, lineHeight: 1.6 }}>
+            Tell us what you need and we’ll reply with specifics on fit,
+            timelines, or how swaps work for your situation.
+          </p>
+          <div className="formCard">
+            <div className="formGrid">
+              <input className="input" placeholder="Name" />
+              <input className="input" placeholder="Email" />
+            </div>
+            <textarea
+              className="input textarea"
+              rows={4}
+              placeholder="What can we help with?"
+            />
+            <div className="formActions">
+              <button className="btnSubmit" type="button">
+                Send
+              </button>
+              <div className="formHint">
+                No backend yet—this will route to our support team soon.
+              </div>
+            </div>
           </div>
         </div>
 
