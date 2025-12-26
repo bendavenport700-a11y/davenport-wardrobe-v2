@@ -59,10 +59,22 @@ export default function NewArrivalsPage() {
 
         .heroImg {
           height: 220px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .slideTrack {
+          display: flex;
+          height: 100%;
+          transition: transform .8s ease;
+        }
+
+        .slidePanel {
+          min-width: 100%;
+          height: 100%;
           background-size: cover;
           background-position: center;
           filter: brightness(0.88);
-          position: relative;
         }
 
         .heroImg::after {
@@ -137,12 +149,21 @@ export default function NewArrivalsPage() {
           margin-top: 8px;
         }
 
-        .galleryRow img {
+        .thumb {
           width: 70px;
           height: 70px;
           object-fit: cover;
           border-radius: 12px;
           border: 1px solid rgba(255,255,255,0.16);
+          opacity: 0.8;
+          transition: border-color .2s ease, opacity .2s ease, transform .2s ease;
+          cursor: pointer;
+        }
+
+        .thumb.active {
+          border-color: rgba(255,255,255,0.3);
+          opacity: 1;
+          transform: translateY(-2px);
         }
       `}</style>
 
@@ -172,41 +193,71 @@ export default function NewArrivalsPage() {
 
         <div className="grid">
           {NEW_ARRIVALS.map((w) => (
-            <div key={w.name} className="arrivalCard">
-              <div
-                className="heroImg"
-                style={{ backgroundImage: `url(${w.cover})` }}
-              >
-                <div className="pill">Fresh Drop</div>
-              </div>
-
-              <div className="arrivalBody">
-                <h3 className="title">{w.name}</h3>
-                <div className="meta">
-                  <span>In circulation: new release</span>
-                  <span>{w.brands.slice(0, 2).join(" · ")}</span>
-                  <span>From ${w.monthlyFee}/mo</span>
-                </div>
-                <p className="desc">{w.description}</p>
-
-                <div className="itemRow">
-                  {w.items.slice(0, 4).map((item) => (
-                    <div key={item} className="itemChip">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="galleryRow">
-                  {w.gallery.slice(0, 3).map((src) => (
-                    <img key={src} src={src} alt={`${w.name} detail`} />
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ArrivalCard key={w.name} wardrobe={w} />
           ))}
         </div>
       </div>
     </main>
+  );
+}
+
+function ArrivalCard({ wardrobe }: { wardrobe: (typeof NEW_ARRIVALS)[number] }) {
+  const [active, setActive] = React.useState(0);
+
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setActive((prev) => (prev + 1) % wardrobe.gallery.length);
+    }, 2400);
+    return () => clearInterval(id);
+  }, [wardrobe.gallery.length]);
+
+  return (
+    <div className="arrivalCard">
+      <div className="heroImg">
+        <div
+          className="slideTrack"
+          style={{ transform: `translateX(-${active * 100}%)` }}
+        >
+          {wardrobe.gallery.map((src) => (
+            <div
+              key={src}
+              className="slidePanel"
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+        </div>
+        <div className="pill">Fresh Drop</div>
+      </div>
+
+      <div className="arrivalBody">
+        <h3 className="title">{wardrobe.name}</h3>
+        <div className="meta">
+          <span>In circulation: new release</span>
+          <span>{wardrobe.brands.slice(0, 2).join(" · ")}</span>
+          <span>From ${wardrobe.monthlyFee}/mo</span>
+        </div>
+        <p className="desc">{wardrobe.description}</p>
+
+        <div className="itemRow">
+          {wardrobe.items.slice(0, 4).map((item) => (
+            <div key={item} className="itemChip">
+              {item}
+            </div>
+          ))}
+        </div>
+
+        <div className="galleryRow">
+          {wardrobe.gallery.slice(0, 3).map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt={`${wardrobe.name} detail`}
+              className={`thumb ${i === active ? "active" : ""}`}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
