@@ -105,6 +105,24 @@ export default function RootLayout({
           {children}
         </div>
 
+        {/* Close mobile menu after selecting a link */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== "undefined") {
+                window.addEventListener("click", function (e) {
+                  var target = e.target;
+                  if (!(target && target.classList && target.classList.contains("dw-mobile-link"))) return;
+                  var menu = target.closest("details.dw-mobile");
+                  if (menu && menu.hasAttribute("open")) {
+                    menu.removeAttribute("open");
+                  }
+                });
+              }
+            `,
+          }}
+        />
+
         {/* Small responsive tweaks without changing your aesthetic */}
         <style>{`
           @media (max-width: 720px) {
