@@ -23,7 +23,8 @@ export default function RootLayout({
             Davenport
           </Link>
 
-          <div style={navLinksStyle} className="dw-links">
+          {/* Desktop nav */}
+          <div style={navLinksStyle} className="dw-links dw-desktop">
             <Link href="/" style={linkStyle} className="dw-link">
               Home
             </Link>
@@ -64,6 +65,40 @@ export default function RootLayout({
               Account
             </Link>
           </div>
+
+          {/* Mobile dropdown */}
+          <details className="dw-mobile">
+            <summary className="dw-mobile-toggle">Menu</summary>
+            <div className="dw-mobile-menu">
+              <Link href="/" className="dw-mobile-link">
+                Home
+              </Link>
+              <div className="dw-mobile-sub">
+                <div className="dw-mobile-label">Wardrobes</div>
+                <Link href="/wardrobes/new-arrivals" className="dw-mobile-link">
+                  New Arrivals
+                </Link>
+                <Link href="/wardrobes" className="dw-mobile-link">
+                  Explore Wardrobes
+                </Link>
+              </div>
+              <Link href="/suitcase" className="dw-mobile-link">
+                Suitcase
+              </Link>
+              <Link href="/how-it-works" className="dw-mobile-link">
+                How It Works
+              </Link>
+              <Link href="/sustainability" className="dw-mobile-link">
+                Sustainability
+              </Link>
+              <Link href="/faq" className="dw-mobile-link">
+                FAQ
+              </Link>
+              <Link href="/account" className="dw-mobile-link">
+                Account
+              </Link>
+            </div>
+          </details>
         </nav>
 
         <div style={contentStyle} className="dw-content">
@@ -76,26 +111,81 @@ export default function RootLayout({
             .dw-nav {
               padding: 16px 18px !important;
             }
-            .dw-links {
-              gap: 10px !important;
-              flex-wrap: nowrap !important;
-              justify-content: flex-start !important;
-              overflow-x: auto !important;
-              padding-bottom: 6px !important;
-              max-width: calc(100% - 90px);
-            }
-            .dw-link {
-              font-size: 0.95rem !important;
-              padding: 8px 10px !important;
-            }
-            .dw-menu {
-              right: 0;
-              left: auto;
-              min-width: 180px;
-            }
             .dw-content {
               padding-top: 132px !important;
             }
+            .dw-desktop {
+              display: none !important;
+            }
+            .dw-mobile {
+              display: block !important;
+            }
+          }
+          .dw-desktop {
+            display: flex;
+          }
+          .dw-mobile {
+            display: none;
+            margin-left: auto;
+            color: #fff;
+            cursor: pointer;
+          }
+          .dw-mobile[open] .dw-mobile-toggle {
+            opacity: 1;
+          }
+          .dw-mobile-toggle {
+            list-style: none;
+            padding: 10px 12px;
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.4);
+            font-weight: 600;
+            opacity: 0.9;
+          }
+          .dw-mobile-toggle::-webkit-details-marker {
+            display: none;
+          }
+          .dw-mobile-menu {
+            position: absolute;
+            right: 18px;
+            top: 58px;
+            min-width: 220px;
+            background: rgba(0,0,0,0.78);
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 14px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+          }
+          .dw-mobile-link {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            opacity: 0.9;
+          }
+          .dw-mobile-link:active {
+            opacity: 1;
+          }
+          .dw-mobile-sub {
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+          }
+          .dw-mobile-label {
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
           }
           .dw-dropdown {
             position: relative;
