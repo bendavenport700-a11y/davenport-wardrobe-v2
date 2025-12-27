@@ -5,11 +5,11 @@ import React from "react";
 
 export default function Home() {
   const phrases = [
-    "Intelligent access to modern style",
-    "Dress smarter",
-    "A simpler way to dress",
-    "Luxury without ownership",
-    "A wardrobe that adapts to you",
+    "A wardrobe built for your real life",
+    "Look sharp, own less",
+    "Concierge styling for students",
+    "Rotations that keep up with you",
+    "Packable, swappable, effortless",
   ];
 
   const [index, setIndex] = React.useState(0);
@@ -60,6 +60,7 @@ export default function Home() {
         .fade.d2 { animation-delay: .3s; }
         .fade.d3 { animation-delay: .45s; }
         .fade.d4 { animation-delay: .6s; }
+        .fade.d5 { animation-delay: .75s; }
 
         @keyframes fadeIn {
           to { opacity: 1; transform: translateY(0); }
@@ -172,6 +173,64 @@ export default function Home() {
           transform: translateY(-1px);
         }
 
+        .pillRow {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 14px;
+        }
+
+        .pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 14px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.14);
+          font-size: 0.92rem;
+        }
+
+        .stat {
+          display: grid;
+          gap: 6px;
+          padding: 18px;
+          border-radius: 14px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .statLabel { opacity: 0.65; font-size: 0.9rem; }
+        .statValue { font-size: 1.2rem; font-weight: 600; }
+
+        .stepGrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 18px;
+        }
+
+        .stepCard {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 16px;
+          padding: 22px;
+          display: grid;
+          gap: 10px;
+        }
+
+        .stepNumber {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          background: linear-gradient(140deg, #ffffff, #d1d1d1);
+          color: #0b0b0c;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 1rem;
+        }
+
         /* ✅ MOBILE FIX: prevent headline clipping */
         @media (max-width: 560px) {
           .container { padding: 0 18px; }
@@ -232,14 +291,28 @@ export default function Home() {
               opacity: 0.78,
             }}
           >
-            {/* ✅ Blend the two statements you like */}
-            Davenport Wardrobe delivers curated wardrobes built around your
-  lifestyle, personal style, and the way you actually live. Less
-  ownership. More clarity. No clutter.
+            A concierge wardrobe built for your schedule, trips, and campus
+            life. We pick, fit, and rotate pieces so you look sharp with half
+            the stuff—and none of the clutter.
           </p>
 
+          <div className="fade d3 pillRow">
+            <div className="pill">
+              <span style={{ opacity: 0.7 }}>✓</span>
+              Stylist curated rotations
+            </div>
+            <div className="pill">
+              <span style={{ opacity: 0.7 }}>✓</span>
+              Student-friendly plans
+            </div>
+            <div className="pill">
+              <span style={{ opacity: 0.7 }}>✓</span>
+              Swap anytime, no re-buy cycle
+            </div>
+          </div>
+
           <div
-            className="fade d3"
+            className="fade d4"
             style={{ display: "flex", gap: 14, marginTop: 32, flexWrap: "wrap" }}
           >
             <a href="#waitlist" className="btnPrimary">
@@ -254,8 +327,8 @@ export default function Home() {
           </div>
 
           {/* ✅ small “proof” line, still minimal */}
-          <div className="fade d4" style={{ marginTop: 18, opacity: 0.62, lineHeight: 1.7 }}>
-            Built for college, travel, seasons, and change — without overthinking.
+          <div className="fade d5" style={{ marginTop: 18, opacity: 0.62, lineHeight: 1.7 }}>
+            Built for campus, internships, travel, and everything that changes.
           </div>
         </div>
       </section>
@@ -263,10 +336,10 @@ export default function Home() {
       {/* VALUE SECTION */}
       <section style={{ padding: "100px 0" }}>
         <div className="container">
-          <h2 style={sectionTitle}>Designed around you</h2>
+          <h2 style={sectionTitle}>Why Davenport works</h2>
           <p style={sectionLead}>
-            Wardrobes that adapt to your life, not the other way around. Clear,
-            modern looks without overthinking or overbuying.
+            We design, fit, and rotate wardrobes that match your week. Clear,
+            modern looks without overbuying or decision fatigue.
           </p>
 
           <div
@@ -277,17 +350,43 @@ export default function Home() {
             }}
           >
             <InfoCard
-              title="No decision fatigue"
-              text="A wardrobe that already works together. Swap when you want variety."
+              title="Everything works together"
+              text="Capsule rotations that layer and mix, so every piece pulls its weight."
             />
             <InfoCard
-              title="Built for timing changes"
-              text="College, seasons, travel, weight changes — your wardrobe adjusts when life does. No re-buying cycle."
+              title="Built for your calendar"
+              text="Campus, travel, recruiting, weekends. We plan the outfits so you never scramble."
             />
             <InfoCard
-              title="Less waste. More confidence."
-              text="Wear what you actually like. Rotate what you don’t. Keep the closet calm."
+              title="Less stuff, better looks"
+              text="Own less, swap faster. Keep your closet calm and always ready to pack."
             />
+          </div>
+        </div>
+      </section>
+
+      {/* PROOF */}
+      <section style={{ padding: "40px 0" }}>
+        <div className="container">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gap: 16,
+            }}
+          >
+            <div className="stat">
+              <div className="statLabel">Made for changing routines</div>
+              <div className="statValue">Campus → internships → travel</div>
+            </div>
+            <div className="stat">
+              <div className="statLabel">Time saved weekly</div>
+              <div className="statValue">No shopping, zero guesswork</div>
+            </div>
+            <div className="stat">
+              <div className="statLabel">Clutter avoided</div>
+              <div className="statValue">Rotate, don’t rebuy</div>
+            </div>
           </div>
         </div>
       </section>
@@ -319,6 +418,61 @@ export default function Home() {
         </div>
       </section>
 
+      {/* HOW IT WORKS */}
+      <section style={{ padding: "80px 0" }}>
+        <div className="container">
+          <h2 style={sectionTitle}>How it works</h2>
+          <div className="stepGrid">
+            <StepCard
+              number="1"
+              title="Tell us your week"
+              text="Share your campus schedule, trips, dress code, and size. We build around your real life."
+            />
+            <StepCard
+              number="2"
+              title="We assemble the rotation"
+              text="Stylists curate pieces that fit, layer, and pack easily. You approve before anything ships."
+            />
+            <StepCard
+              number="3"
+              title="Wear, swap, stay ready"
+              text="Keep what works, rotate what doesn’t. Fresh drops for interviews, events, or last-minute travel."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* MOMENTS */}
+      <section style={{ padding: "40px 0 80px" }}>
+        <div className="container">
+          <h2 style={sectionTitle}>Built for the moments that matter</h2>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 18,
+            }}
+          >
+            <InfoCard
+              title="Campus & internships"
+              text="Smart casual that moves between class, labs, and recruiting events without extra shopping trips."
+            />
+            <InfoCard
+              title="Weekend trips"
+              text="Packable capsules that fit in a carry-on. Swap pieces before you go."
+            />
+            <InfoCard
+              title="Events & presentations"
+              text="Polished options ready when you need to show up—no last-minute scramble."
+            />
+            <InfoCard
+              title="Season shifts"
+              text="Swap as weather changes. Keep your closet lean and in-season."
+            />
+          </div>
+        </div>
+      </section>
+
 
       {/* WAITLIST */}
       <section id="waitlist" style={{ padding: "120px 0" }}>
@@ -331,7 +485,7 @@ export default function Home() {
               Join the waitlist
             </h2>
             <p style={{ opacity: 0.75, marginBottom: 28 }}>
-              Early access, priority wardrobe drops, and student benefits for
+              Early access, priority wardrobe drops, and student pricing for
               verified .edu emails.
             </p>
 
@@ -391,6 +545,24 @@ function InfoCard({ title, text }: InfoCardProps) {
     <div className="card">
       <h3 style={cardTitle}>{title}</h3>
       <p style={cardText}>{text}</p>
+    </div>
+  );
+}
+
+type StepCardProps = {
+  number: string;
+  title: string;
+  text: string;
+};
+
+function StepCard({ number, title, text }: StepCardProps) {
+  return (
+    <div className="stepCard">
+      <div className="stepNumber">{number}</div>
+      <div style={{ display: "grid", gap: 6 }}>
+        <h3 style={cardTitle}>{title}</h3>
+        <p style={cardText}>{text}</p>
+      </div>
     </div>
   );
 }
