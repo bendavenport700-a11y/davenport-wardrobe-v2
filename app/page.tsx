@@ -556,7 +556,14 @@ export default function Home() {
                       fontSize: "0.92rem",
                     }}
                   >
-                    Sizes: {item.sizes.join(", ")}
+                    Sizes:{" "}
+                    {(
+                      Array.isArray(item.sizes)
+                        ? item.sizes
+                        : item.sizes
+                          ? [String(item.sizes)]
+                          : []
+                    ).join(", ")}
                   </div>
                   <div
                     style={{
