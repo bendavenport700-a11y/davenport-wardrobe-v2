@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
+import inventoryData from "../data/inventory.json";
 
 export default function Home() {
   const phrases = [
@@ -13,6 +14,7 @@ export default function Home() {
   ];
 
   const [index, setIndex] = React.useState(0);
+  const inventory = inventoryData as InventoryItem[];
 
   React.useEffect(() => {
     const prefersReduced =
@@ -473,6 +475,131 @@ export default function Home() {
         </div>
       </section>
 
+      {/* INVENTORY (driven by data/inventory.json) */}
+      <section id="inventory" style={{ padding: "80px 0" }}>
+        <div className="container">
+          <h2 style={sectionTitle}>Inventory preview</h2>
+          <p style={sectionLead}>
+            Add or edit items in <code>data/inventory.json</code> and drop photos in{" "}
+            <code>public/inventory/</code>. The grid below reads straight from that file.
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 18,
+            }}
+          >
+            {inventory.map((item) => (
+              <div key={item.id} className="card" style={{ display: "grid", gap: 10 }}>
+                <div
+                  style={{
+                    height: 180,
+                    borderRadius: 12,
+                    overflow: "hidden",
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <img
+                    src={item.image || "/inventory/placeholder.jpg"}
+                    alt={item.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    gap: 8,
+                  }}
+                >
+                  <div>
+                    <h3 style={cardTitle}>{item.name}</h3>
+                    <div style={{ opacity: 0.65, fontSize: "0.95rem" }}>
+                      {item.collection ? `${item.collection} · ` : ""}
+                      {item.category}
+                    </div>
+                  </div>
+                  <span
+                    style={{
+                      padding: "6px 10px",
+                      borderRadius: 999,
+                      fontSize: "0.85rem",
+                      fontWeight: 600,
+                      background:
+                        item.status === "low-stock"
+                          ? "rgba(255, 205, 86, 0.15)"
+                          : item.status === "unavailable"
+                            ? "rgba(255, 99, 132, 0.15)"
+                            : "rgba(75, 181, 67, 0.18)",
+                      color:
+                        item.status === "low-stock"
+                          ? "#e6b800"
+                          : item.status === "unavailable"
+                            ? "#ff6b81"
+                            : "#6bd66b",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                    }}
+                  >
+                    {item.status}
+                  </span>
+                </div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", opacity: 0.8 }}>
+                  <div
+                    style={{
+                      padding: "8px 10px",
+                      borderRadius: 10,
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontSize: "0.92rem",
+                    }}
+                  >
+                    Sizes: {item.sizes.join(", ")}
+                  </div>
+                  <div
+                    style={{
+                      padding: "8px 10px",
+                      borderRadius: 10,
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontSize: "0.92rem",
+                    }}
+                  >
+                    ${item.price}
+                  </div>
+                </div>
+                {item.tags?.length ? (
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {item.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          padding: "6px 10px",
+                          borderRadius: 999,
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.12)",
+                          fontSize: "0.88rem",
+                          opacity: 0.85,
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {item.notes ? (
+                  <div style={{ opacity: 0.7, fontSize: "0.95rem", lineHeight: 1.5 }}>
+                    {item.notes}
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* WAITLIST */}
       <section id="waitlist" style={{ padding: "120px 0" }}>
@@ -553,6 +680,19 @@ type StepCardProps = {
   number: string;
   title: string;
   text: string;
+};
+
+type InventoryItem = {
+  id: string;
+  name: string;
+  collection?: string;
+  category: string;
+  sizes: string[];
+  price: number;
+  status: "available" | "low-stock" | "unavailable";
+  image?: string;
+  notes?: string;
+  tags?: string[];
 };
 
 function StepCard({ number, title, text }: StepCardProps) {
