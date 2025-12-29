@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import inventoryData from "../data/inventory.json";
+import Image from "next/image";
 
 export default function Home() {
   const phrases = [
@@ -501,10 +502,13 @@ export default function Home() {
                     border: "1px solid rgba(255,255,255,0.08)",
                   }}
                 >
-                  <img
+                  <Image
                     src={item.image || "/inventory/placeholder.jpg"}
                     alt={item.name}
+                    width={800}
+                    height={600}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    sizes="(max-width: 640px) 100vw, 400px"
                   />
                 </div>
                 <div
@@ -556,7 +560,14 @@ export default function Home() {
                       fontSize: "0.92rem",
                     }}
                   >
-                    sizes: (Array.isArray(item.sizes) ? item.sizes : (item.sizes ? [String(item.sizes)] : [])).join(", ")
+                    Sizes:{" "}
+                    {(
+                      Array.isArray(item.sizes)
+                        ? item.sizes
+                        : item.sizes
+                          ? [String(item.sizes)]
+                          : []
+                    ).join(", ")}
                   </div>
                   <div
                     style={{
