@@ -19,6 +19,29 @@ type InventoryItem = {
 
 export default function WardrobesPage() {
   const inventory = inventoryData as InventoryItem[];
+  const collections = [
+    "The 203 Collection",
+    "The Greenwich Standard",
+    "Old Money Staples",
+    "PSU 2nd and 3rd quarter",
+    "Kennebunkport Classics",
+    "The Deacon’s Suitcase move in",
+    "Boulder Winter Elevation",
+    "Buff Winterline",
+    "Hoosier Freeze",
+    "Palm Shadow",
+    "Catalina Bloom",
+    "Chestnut Season",
+    "Scarlet Walk",
+    "Sixth Street Shift",
+  ];
+
+  const grouped = inventory.reduce<Record<string, InventoryItem[]>>((acc, item) => {
+    const key = item.collection || "Other";
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {});
 
   return (
     <main
@@ -92,83 +115,95 @@ export default function WardrobesPage() {
           deploy, and everything below updates.
         </p>
 
-        <div className="grid">
-          {inventory.map((item) => {
-            const status = item.status ?? "available";
-            const price =
-              typeof item.price === "number" && !Number.isNaN(item.price)
-                ? item.price
-                : undefined;
-            const sizes = Array.isArray(item.sizes)
-              ? item.sizes
-              : item.sizes
-                ? [String(item.sizes)]
-                : [];
+        {collections.map((collection) => {
+          const items = grouped[collection] || [];
+          return (
+            <div key={collection} style={{ marginBottom: 32 }}>
+              <h2 style={{ marginBottom: 12 }}>{collection}</h2>
+              {items.length === 0 ? (
+                <div style={{ opacity: 0.65 }}>Coming soon</div>
+              ) : (
+                <div className="grid">
+                  {items.map((item) => {
+                    const status = item.status ?? "available";
+                    const price =
+                      typeof item.price === "number" && !Number.isNaN(item.price)
+                        ? item.price
+                        : undefined;
+                    const sizes = Array.isArray(item.sizes)
+                      ? item.sizes
+                      : item.sizes
+                        ? [String(item.sizes)]
+                        : [];
 
-            return (
-              <div key={item.id} className="card">
-                <div className="imageWrap">
-                  <Image
-                    src={item.image || "/inventory/placeholder.jpg"}
-                    alt={item.name}
-                    width={800}
-                    height={600}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    sizes="(max-width: 640px) 100vw, 400px"
-                  />
+                    return (
+                      <div key={item.id} className="card">
+                        <div className="imageWrap">
+                          <Image
+                            src={item.image || "/inventory/placeholder.jpg"}
+                            alt={item.name}
+                            width={800}
+                            height={600}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            sizes="(max-width: 640px) 100vw, 400px"
+                          />
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                          <div>
+                            <div style={{ fontSize: "0.9rem", opacity: 0.7 }}>
+                              {collection}
+                            </div>
+                            <h3 style={{ margin: "2px 0 4px", fontSize: "1.1rem" }}>{item.name}</h3>
+                            <div style={{ opacity: 0.7 }}>{item.category}</div>
+                          </div>
+                          <span
+                            className="tag"
+                            style={{
+                              background:
+                                status === "low-stock"
+                                  ? "rgba(255, 205, 86, 0.15)"
+                                  : status === "unavailable"
+                                    ? "rgba(255, 99, 132, 0.15)"
+                                    : "rgba(75, 181, 67, 0.18)",
+                              color:
+                                status === "low-stock"
+                                  ? "#e6b800"
+                                  : status === "unavailable"
+                                    ? "#ff6b81"
+                                    : "#6bd66b",
+                              border: "1px solid rgba(255,255,255,0.12)",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {status}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                          <span className="tag">Sizes: {sizes.join(", ") || "TBD"}</span>
+                          <span className="tag">
+                            {price !== undefined ? `$${price}` : "Price on request"}
+                          </span>
+                        </div>
+                        {item.tags?.length ? (
+                          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                            {item.tags.map((tag) => (
+                              <span key={tag} className="tag">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        ) : null}
+                        {item.notes ? (
+                          <div style={{ opacity: 0.75, lineHeight: 1.5 }}>{item.notes}</div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                  <div>
-                    <div style={{ fontSize: "0.9rem", opacity: 0.7 }}>
-                      {item.collection || "Wardrobe"}
-                    </div>
-                    <h3 style={{ margin: "2px 0 4px", fontSize: "1.1rem" }}>{item.name}</h3>
-                    <div style={{ opacity: 0.7 }}>{item.category}</div>
-                  </div>
-                  <span
-                    className="tag"
-                    style={{
-                      background:
-                        status === "low-stock"
-                          ? "rgba(255, 205, 86, 0.15)"
-                          : status === "unavailable"
-                            ? "rgba(255, 99, 132, 0.15)"
-                            : "rgba(75, 181, 67, 0.18)",
-                      color:
-                        status === "low-stock"
-                          ? "#e6b800"
-                          : status === "unavailable"
-                            ? "#ff6b81"
-                            : "#6bd66b",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {status}
-                  </span>
-                </div>
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <span className="tag">Sizes: {sizes.join(", ") || "TBD"}</span>
-                  <span className="tag">
-                    {price !== undefined ? `$${price}` : "Price on request"}
-                  </span>
-                </div>
-                {item.tags?.length ? (
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    {item.tags.map((tag) => (
-                      <span key={tag} className="tag">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-                {item.notes ? (
-                  <div style={{ opacity: 0.75, lineHeight: 1.5 }}>{item.notes}</div>
-                ) : null}
-              </div>
-            );
-          })}
-        </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </main>
   );
