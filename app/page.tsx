@@ -687,9 +687,9 @@ type InventoryItem = {
   name: string;
   collection?: string;
   category: string;
-  sizes: string[];
-  price: number;
-  status: "available" | "low-stock" | "unavailable";
+  sizes?: (string | number)[];
+  price?: number;
+  status?: "available" | "low-stock" | "unavailable";
   image?: string;
   notes?: string;
   tags?: string[];
