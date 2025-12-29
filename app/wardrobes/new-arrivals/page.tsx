@@ -1,10 +1,25 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 
+import Image from "next/image";
 import React from "react";
-import { NEW_ARRIVALS } from "../data";
+import inventoryData from "../../../data/inventory.json";
+
+type InventoryItem = {
+  id: string;
+  name: string;
+  collection?: string;
+  category: string;
+  sizes?: (string | number)[];
+  price?: number;
+  status?: "available" | "low-stock" | "unavailable";
+  image?: string;
+  notes?: string;
+  tags?: string[];
+};
 
 export default function NewArrivalsPage() {
+  const items = inventoryData as InventoryItem[];
+
   return (
     <main
       style={{
@@ -18,156 +33,52 @@ export default function NewArrivalsPage() {
     >
       <style>{`
         * { box-sizing: border-box; }
-        img { display: block; max-width: 100%; }
 
         .container {
           max-width: 1180px;
           margin: 0 auto;
         }
 
-        .fade {
-          opacity: 0;
-          transform: translateY(14px);
-          animation: fadeIn .9s ease forwards;
-        }
-
-        @keyframes fadeIn {
-          to { opacity: 1; transform: translateY(0); }
-        }
-
         .grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 28px;
-          margin-top: 36px;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 18px;
+          margin-top: 30px;
         }
 
-        .arrivalCard {
+        .card {
           border: 1px solid rgba(255,255,255,0.14);
-          border-radius: 20px;
+          border-radius: 18px;
           overflow: hidden;
           background: rgba(255,255,255,0.04);
-          transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-          position: relative;
+          transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+          display: grid;
+          gap: 10px;
         }
 
-        .arrivalCard:hover {
-          transform: translateY(-6px);
+        .card:hover {
+          transform: translateY(-4px);
           border-color: rgba(255,255,255,0.26);
-          box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+          box-shadow: 0 18px 60px rgba(0,0,0,0.45);
         }
 
-        .heroImg {
+        .imageWrap {
           height: 220px;
           position: relative;
           overflow: hidden;
         }
 
-        .slideTrack {
-          display: flex;
-          height: 100%;
-          transition: transform .8s ease;
-        }
-
-        .slidePanel {
-          min-width: 100%;
-          height: 100%;
-          background-size: cover;
-          background-position: center;
-          filter: brightness(0.88);
-        }
-
-        .heroImg::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.55));
-        }
-
         .pill {
-          position: absolute;
-          top: 14px;
-          left: 14px;
-          padding: 8px 12px;
+          padding: 6px 10px;
           border-radius: 999px;
-          background: rgba(0,0,0,0.65);
-          border: 1px solid rgba(255,255,255,0.16);
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.14);
           font-weight: 700;
           letter-spacing: 0.04em;
         }
-
-        .arrivalBody {
-          padding: 20px 18px 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-
-        .title {
-          font-size: 1.35rem;
-          margin: 0;
-          letter-spacing: -0.01em;
-        }
-
-        .desc {
-          opacity: 0.78;
-          line-height: 1.65;
-        }
-
-        .meta {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-          opacity: 0.88;
-        }
-
-        .meta span {
-          padding: 8px 10px;
-          border-radius: 12px;
-          border: 1px solid rgba(255,255,255,0.14);
-          background: rgba(255,255,255,0.05);
-        }
-
-        .itemRow {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-
-        .itemChip {
-          border-radius: 12px;
-          padding: 8px 12px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.12);
-          opacity: 0.9;
-          font-weight: 600;
-        }
-
-        .galleryRow {
-          display: flex;
-          gap: 10px;
-          margin-top: 8px;
-        }
-
-        .thumb {
-          width: 70px;
-          height: 70px;
-          object-fit: cover;
-          border-radius: 12px;
-          border: 1px solid rgba(255,255,255,0.16);
-          opacity: 0.8;
-          transition: border-color .2s ease, opacity .2s ease, transform .2s ease;
-          cursor: pointer;
-        }
-
-        .thumb.active {
-          border-color: rgba(255,255,255,0.3);
-          opacity: 1;
-          transform: translateY(-2px);
-        }
       `}</style>
 
-      <div className="container fade">
+      <div className="container">
         <span
           style={{
             letterSpacing: "0.18em",
@@ -187,77 +98,90 @@ export default function NewArrivalsPage() {
           New Arrivals
         </h1>
         <p style={{ opacity: 0.75, maxWidth: 760, lineHeight: 1.7 }}>
-          Fresh releases and brand-new items that have never been worn. Built
-          around the latest drops, fabric updates, and modern silhouettes.
+          This page now reads directly from <code>data/inventory.json</code>.
+          Add or edit rows (from your Google Sheets export), drop photos into{" "}
+          <code>public/inventory/</code>, and redeploy to update these cards.
         </p>
 
         <div className="grid">
-          {NEW_ARRIVALS.map((w) => (
-            <ArrivalCard key={w.name} wardrobe={w} />
-          ))}
+          {items.map((item) => {
+            const status = item.status ?? "available";
+            const price =
+              typeof item.price === "number" && !Number.isNaN(item.price)
+                ? item.price
+                : undefined;
+            const sizes = Array.isArray(item.sizes)
+              ? item.sizes
+              : item.sizes
+                ? [String(item.sizes)]
+                : [];
+
+            return (
+              <div key={item.id} className="card">
+                <div className="imageWrap">
+                  <Image
+                    src={item.image || "/inventory/placeholder.jpg"}
+                    alt={item.name}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 640px) 100vw, 400px"
+                    priority
+                  />
+                </div>
+                <div style={{ display: "grid", gap: 6, padding: "0 14px 14px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+                    <div>
+                      <div style={{ opacity: 0.7, fontSize: "0.9rem" }}>
+                        {item.collection || "Wardrobe"}
+                      </div>
+                      <h3 style={{ margin: "2px 0 4px", fontSize: "1.15rem" }}>{item.name}</h3>
+                      <div style={{ opacity: 0.7 }}>{item.category}</div>
+                    </div>
+                    <span
+                      className="pill"
+                      style={{
+                        background:
+                          status === "low-stock"
+                            ? "rgba(255, 205, 86, 0.15)"
+                            : status === "unavailable"
+                              ? "rgba(255, 99, 132, 0.15)"
+                              : "rgba(75, 181, 67, 0.18)",
+                        color:
+                          status === "low-stock"
+                            ? "#e6b800"
+                            : status === "unavailable"
+                              ? "#ff6b81"
+                              : "#6bd66b",
+                        borderColor: "rgba(255,255,255,0.18)",
+                      }}
+                    >
+                      {status}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span className="pill">Sizes: {sizes.join(", ") || "TBD"}</span>
+                    <span className="pill">
+                      {price !== undefined ? `$${price}` : "Price on request"}
+                    </span>
+                  </div>
+                  {item.tags?.length ? (
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {item.tags.map((tag) => (
+                        <span key={tag} className="pill">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {item.notes ? (
+                    <div style={{ opacity: 0.72, lineHeight: 1.5 }}>{item.notes}</div>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </main>
-  );
-}
-
-function ArrivalCard({ wardrobe }: { wardrobe: (typeof NEW_ARRIVALS)[number] }) {
-  const [active, setActive] = React.useState(0);
-
-  React.useEffect(() => {
-    const id = setInterval(() => {
-      setActive((prev) => (prev + 1) % wardrobe.gallery.length);
-    }, 2400);
-    return () => clearInterval(id);
-  }, [wardrobe.gallery.length]);
-
-  return (
-    <div className="arrivalCard">
-      <div className="heroImg">
-        <div
-          className="slideTrack"
-          style={{ transform: `translateX(-${active * 100}%)` }}
-        >
-          {wardrobe.gallery.map((src) => (
-            <div
-              key={src}
-              className="slidePanel"
-              style={{ backgroundImage: `url(${src})` }}
-            />
-          ))}
-        </div>
-        <div className="pill">Fresh Drop</div>
-      </div>
-
-      <div className="arrivalBody">
-        <h3 className="title">{wardrobe.name}</h3>
-        <div className="meta">
-          <span>In circulation: new release</span>
-          <span>{wardrobe.brands.slice(0, 2).join(" · ")}</span>
-          <span>From ${wardrobe.monthlyFee}/mo</span>
-        </div>
-        <p className="desc">{wardrobe.description}</p>
-
-        <div className="itemRow">
-          {wardrobe.items.slice(0, 4).map((item) => (
-            <div key={item} className="itemChip">
-              {item}
-            </div>
-          ))}
-        </div>
-
-        <div className="galleryRow">
-          {wardrobe.gallery.slice(0, 3).map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt={`${wardrobe.name} detail`}
-              className={`thumb ${i === active ? "active" : ""}`}
-              onClick={() => setActive(i)}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
