@@ -4,6 +4,8 @@ import React from "react";
 import inventoryData from "../../data/inventory.json";
 import Image from "next/image";
 
+const slugify = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
 type InventoryItem = {
   id: string;
   name: string;
@@ -19,22 +21,13 @@ type InventoryItem = {
 
 export default function WardrobesPage() {
   const inventory = inventoryData as InventoryItem[];
-  const collections = [
-    "The 203 Collection",
-    "The Greenwich Standard",
-    "Old Money Staples",
-    "PSU 2nd and 3rd quarter",
-    "Kennebunkport Classics",
-    "The Deacon’s Suitcase move in",
-    "Boulder Winter Elevation",
-    "Buff Winterline",
-    "Hoosier Freeze",
-    "Palm Shadow",
-    "Catalina Bloom",
-    "Chestnut Season",
-    "Scarlet Walk",
-    "Sixth Street Shift",
-  ];
+  const collections = Array.from(
+    new Set(
+      inventory
+        .map((item) => item.collection?.trim())
+        .filter((c): c is string => Boolean(c)),
+    ),
+  );
 
   const grouped = inventory.reduce<Record<string, InventoryItem[]>>((acc, item) => {
     const key = item.collection || "Other";
@@ -118,7 +111,11 @@ export default function WardrobesPage() {
         {collections.map((collection) => {
           const items = grouped[collection] || [];
           return (
-            <div key={collection} style={{ marginBottom: 32 }}>
+            <div
+              key={collection}
+              id={slugify(collection)}
+              style={{ marginBottom: 32 }}
+            >
               <h2 style={{ marginBottom: 12 }}>{collection}</h2>
               {items.length === 0 ? (
                 <div style={{ opacity: 0.65 }}>Coming soon</div>

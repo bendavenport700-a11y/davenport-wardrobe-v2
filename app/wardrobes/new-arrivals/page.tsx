@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import inventoryData from "../../../data/inventory.json";
 
@@ -9,16 +10,39 @@ type InventoryItem = {
   name: string;
   collection?: string;
   category: string;
-  sizes?: (string | number)[];
-  price?: number;
-  status?: "available" | "low-stock" | "unavailable";
   image?: string;
-  notes?: string;
-  tags?: string[];
 };
+
+const slugify = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
 export default function NewArrivalsPage() {
   const items = inventoryData as InventoryItem[];
+
+  const collectionMap = items.reduce<Record<string, InventoryItem>>((acc, item) => {
+    if (!item.collection) return acc;
+    const key = item.collection.trim().toLowerCase();
+    if (!acc[key]) acc[key] = item; // first item per collection
+    return acc;
+  }, {});
+
+  const slides = Object.values(collectionMap).map((item) => ({
+    name: item.collection || "Wardrobe",
+    category: item.category,
+    image: item.image || "/inventory/placeholder.jpg",
+    href: `/wardrobes#${slugify(item.collection || "wardrobe")}`,
+  }));
+
+  const [index, setIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!slides.length) return;
+    const id = setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, 3200);
+    return () => clearInterval(id);
+  }, [slides.length]);
+
+  const current = slides[index];
 
   return (
     <main
@@ -27,54 +51,70 @@ export default function NewArrivalsPage() {
         background:
           "radial-gradient(1200px 600px at 50% -10%, #121214 0%, #060607 55%)",
         color: "#f1f1f1",
-        padding: "140px 24px",
+        padding: "140px 24px 100px",
         fontFamily: "'Inter', system-ui, sans-serif",
       }}
     >
       <style>{`
         * { box-sizing: border-box; }
 
-        .container {
-          max-width: 1180px;
-          margin: 0 auto;
-        }
+        .container { max-width: 1180px; margin: 0 auto; }
 
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-          gap: 18px;
-          margin-top: 30px;
-        }
-
-        .card {
-          border: 1px solid rgba(255,255,255,0.14);
-          border-radius: 18px;
-          overflow: hidden;
-          background: rgba(255,255,255,0.04);
-          transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-          display: grid;
-          gap: 10px;
-        }
-
-        .card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(255,255,255,0.26);
-          box-shadow: 0 18px 60px rgba(0,0,0,0.45);
-        }
-
-        .imageWrap {
-          height: 220px;
+        .hero {
           position: relative;
+          border-radius: 24px;
           overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.14);
+          background: rgba(255,255,255,0.04);
+          min-height: 420px;
         }
 
-        .pill {
-          padding: 6px 10px;
+        .controls {
+          display: flex;
+          gap: 10px;
+          margin-top: 14px;
+          flex-wrap: wrap;
+        }
+
+        .dot {
+          width: 12px;
+          height: 12px;
           border-radius: 999px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.14);
-          font-weight: 700;
-          letter-spacing: 0.04em;
+          background: rgba(255,255,255,0.24);
+          border: 1px solid rgba(255,255,255,0.32);
+          cursor: pointer;
+          transition: all .2s ease;
+        }
+        .dot.active {
+          width: 28px;
+          background: #fff;
+          border-color: #fff;
+        }
+
+        .thumbs {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+          gap: 12px;
+          margin-top: 22px;
+        }
+
+        .thumb {
+          border-radius: 14px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.05);
+          padding: 10px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          transition: border-color .2s ease, transform .2s ease;
+        }
+        .thumb:hover {
+          border-color: rgba(255,255,255,0.26);
+          transform: translateY(-2px);
+        }
+        .thumb.active {
+          border-color: rgba(255,255,255,0.36);
         }
       `}</style>
 
@@ -98,88 +138,89 @@ export default function NewArrivalsPage() {
           New Arrivals
         </h1>
         <p style={{ opacity: 0.75, maxWidth: 760, lineHeight: 1.7 }}>
-          This page now reads directly from <code>data/inventory.json</code>.
-          Add or edit rows (from your Google Sheets export), drop photos into{" "}
-          <code>public/inventory/</code>, and redeploy to update these cards.
+          Tap any wardrobe to jump to Explore and see the full lineup. Every collection shown
+          here is considered a current arrival.
         </p>
 
-        <div className="grid">
-          {items.map((item) => {
-            const status = item.status ?? "available";
-            const price =
-              typeof item.price === "number" && !Number.isNaN(item.price)
-                ? item.price
-                : undefined;
-            const sizes = Array.isArray(item.sizes)
-              ? item.sizes
-              : item.sizes
-                ? [String(item.sizes)]
-                : [];
+        <Link href={current.href} style={{ color: "inherit", textDecoration: "none" }}>
+          <div className="hero">
+            <Image
+              src={current.image}
+              alt={current.name}
+              fill
+              style={{ objectFit: "cover", filter: "brightness(0.85)" }}
+              sizes="(max-width: 720px) 100vw, 1180px"
+              priority
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.65))",
+              }}
+            />
+            <div style={{ position: "absolute", bottom: 24, left: 24, right: 24 }}>
+              <div style={{ opacity: 0.75, marginBottom: 8 }}>{current.category}</div>
+              <h2 style={{ margin: 0, fontSize: "2.2rem" }}>{current.name}</h2>
+              <div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center" }}>
+                <span
+                  style={{
+                    padding: "8px 12px",
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    fontWeight: 700,
+                  }}
+                >
+                  View in Explore →
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
 
-            return (
-              <div key={item.id} className="card">
-                <div className="imageWrap">
+        <div className="controls" aria-label="New arrivals slider controls">
+          {slides.map((slide, i) => (
+            <button
+              key={slide.name}
+              className={`dot ${i === index ? "active" : ""}`}
+              aria-label={`Go to ${slide.name}`}
+              onClick={() => setIndex(i)}
+            />
+          ))}
+        </div>
+
+        <div className="thumbs">
+          {slides.map((slide, i) => (
+            <Link key={slide.name} href={slide.href} style={{ color: "inherit" }}>
+              <div className={`thumb ${i === index ? "active" : ""}`} onMouseEnter={() => setIndex(i)}>
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 12,
+                    overflow: "hidden",
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    position: "relative",
+                    flexShrink: 0,
+                  }}
+                >
                   <Image
-                    src={item.image || "/inventory/placeholder.jpg"}
-                    alt={item.name}
+                    src={slide.image}
+                    alt={slide.name}
                     fill
                     style={{ objectFit: "cover" }}
-                    sizes="(max-width: 640px) 100vw, 400px"
-                    priority
+                    sizes="96px"
                   />
                 </div>
-                <div style={{ display: "grid", gap: 6, padding: "0 14px 14px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                    <div>
-                      <div style={{ opacity: 0.7, fontSize: "0.9rem" }}>
-                        {item.collection || "Wardrobe"}
-                      </div>
-                      <h3 style={{ margin: "2px 0 4px", fontSize: "1.15rem" }}>{item.name}</h3>
-                      <div style={{ opacity: 0.7 }}>{item.category}</div>
-                    </div>
-                    <span
-                      className="pill"
-                      style={{
-                        background:
-                          status === "low-stock"
-                            ? "rgba(255, 205, 86, 0.15)"
-                            : status === "unavailable"
-                              ? "rgba(255, 99, 132, 0.15)"
-                              : "rgba(75, 181, 67, 0.18)",
-                        color:
-                          status === "low-stock"
-                            ? "#e6b800"
-                            : status === "unavailable"
-                              ? "#ff6b81"
-                              : "#6bd66b",
-                        borderColor: "rgba(255,255,255,0.18)",
-                      }}
-                    >
-                      {status}
-                    </span>
-                  </div>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    <span className="pill">Sizes: {sizes.join(", ") || "TBD"}</span>
-                    <span className="pill">
-                      {price !== undefined ? `$${price}` : "Price on request"}
-                    </span>
-                  </div>
-                  {item.tags?.length ? (
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      {item.tags.map((tag) => (
-                        <span key={tag} className="pill">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  {item.notes ? (
-                    <div style={{ opacity: 0.72, lineHeight: 1.5 }}>{item.notes}</div>
-                  ) : null}
+                <div>
+                  <div style={{ fontWeight: 700 }}>{slide.name}</div>
+                  <div style={{ opacity: 0.7, fontSize: "0.95rem" }}>{slide.category}</div>
                 </div>
               </div>
-            );
-          })}
+            </Link>
+          ))}
         </div>
       </div>
     </main>

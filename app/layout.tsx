@@ -26,25 +26,25 @@ export default function RootLayout({
           {/* Desktop nav */}
           <div style={navLinksStyle} className="dw-links dw-desktop">
             <Link href="/" style={linkStyle} className="dw-link">
-              Home
+            Home
+          </Link>
+          <div style={dropdownStyle} className="dw-dropdown">
+            <Link href="/wardrobes/new-arrivals" style={linkStyle} className="dw-link">
+              Wardrobes
             </Link>
-            <div style={dropdownStyle} className="dw-dropdown">
-              <Link href="/wardrobes" style={linkStyle} className="dw-link">
-                Wardrobes
-              </Link>
-              <div className="dw-menu">
-                <Link
-                  href="/wardrobes/new-arrivals"
+            <div className="dw-menu">
+              <Link
+                href="/wardrobes/new-arrivals"
                   style={submenuLinkStyle}
                   className="dw-link"
                 >
                   New Arrivals
-                </Link>
-                <Link
-                  href="/wardrobes"
-                  style={submenuLinkStyle}
-                  className="dw-link"
-                >
+              </Link>
+              <Link
+                href="/wardrobes"
+                style={submenuLinkStyle}
+                className="dw-link"
+              >
                   Explore Wardrobes
                 </Link>
               </div>
