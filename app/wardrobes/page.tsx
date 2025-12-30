@@ -97,15 +97,15 @@ export default function WardrobesPage() {
 
       <div className="container">
         <div style={{ opacity: 0.7, letterSpacing: "0.16em", fontSize: "0.8rem" }}>
-          WARDROBES
+          EXPLORE WARDROBES
         </div>
-        <h1 style={{ fontSize: "clamp(2.6rem, 5vw, 3.6rem)", margin: "12px 0" }}>
-          Current inventory
+        <h1 style={{ fontSize: "clamp(2.8rem, 5vw, 3.8rem)", margin: "12px 0" }}>
+          Wardrobe lineup
         </h1>
         <p style={{ opacity: 0.78, maxWidth: 760, lineHeight: 1.65, marginBottom: 28 }}>
-          This page reads straight from <code>data/inventory.json</code>. Add or edit rows
-          (from your Google Sheets export), drop images in <code>public/inventory/</code>,
-          deploy, and everything below updates.
+          Each section below is a wardrobe collection. The cards are pulled straight from
+          <code> data/inventory.json</code>, so what you see here is the live wardrobe
+          inventory.
         </p>
 
         {collections.map((collection) => {
