@@ -70,8 +70,8 @@ export default function WardrobesPage() {
           gap: 12px;
           align-items: baseline;
           margin-bottom: 14px;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
-          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(255,255,255,0.14);
+          padding-bottom: 12px;
         }
 
         .grid {
@@ -139,7 +139,20 @@ export default function WardrobesPage() {
                   <div style={{ opacity: 0.65, letterSpacing: "0.08em", fontSize: "0.8rem" }}>
                     Wardrobe Collection
                   </div>
-                  <h2 style={{ margin: "4px 0 2px" }}>{collection}</h2>
+                  <h2
+                    style={{
+                      margin: "4px 0 2px",
+                      fontSize: "1.8rem",
+                      letterSpacing: "0.04em",
+                      background:
+                        "linear-gradient(120deg, rgba(255,255,255,0.96), rgba(120,200,255,0.75))",
+                      WebkitBackgroundClip: "text",
+                      color: "transparent",
+                      textShadow: "0 6px 24px rgba(120,200,255,0.25)",
+                    }}
+                  >
+                    {collection}
+                  </h2>
                   <div style={{ opacity: 0.7, fontSize: "0.95rem" }}>
                     {items.length} item{items.length === 1 ? "" : "s"}
                   </div>
