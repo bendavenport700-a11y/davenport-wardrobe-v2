@@ -56,6 +56,24 @@ export default function WardrobesPage() {
           margin: 0 auto;
         }
 
+        .collection {
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 18px;
+          padding: 20px;
+          margin-bottom: 26px;
+          background: rgba(255,255,255,0.03);
+        }
+
+        .collectionHeader {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          align-items: baseline;
+          margin-bottom: 14px;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          padding-bottom: 10px;
+        }
+
         .grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -114,9 +132,34 @@ export default function WardrobesPage() {
             <div
               key={collection}
               id={slugify(collection)}
-              style={{ marginBottom: 32 }}
+              className="collection"
             >
-              <h2 style={{ marginBottom: 12 }}>{collection}</h2>
+              <div className="collectionHeader">
+                <div>
+                  <div style={{ opacity: 0.65, letterSpacing: "0.08em", fontSize: "0.8rem" }}>
+                    Wardrobe Collection
+                  </div>
+                  <h2 style={{ margin: "4px 0 2px" }}>{collection}</h2>
+                  <div style={{ opacity: 0.7, fontSize: "0.95rem" }}>
+                    {items.length} item{items.length === 1 ? "" : "s"}
+                  </div>
+                </div>
+                <a
+                  href="#top"
+                  style={{
+                    padding: "8px 12px",
+                    borderRadius: 10,
+                    border: "1px solid rgba(255,255,255,0.16)",
+                    background: "rgba(255,255,255,0.05)",
+                    color: "inherit",
+                    textDecoration: "none",
+                    fontWeight: 600,
+                    opacity: 0.85,
+                  }}
+                >
+                  Back to top
+                </a>
+              </div>
               {items.length === 0 ? (
                 <div style={{ opacity: 0.65 }}>Coming soon</div>
               ) : (
