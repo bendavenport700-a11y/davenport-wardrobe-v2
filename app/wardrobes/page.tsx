@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import inventoryData from "../../data/inventory.json";
 import Image from "next/image";
-
-const slugify = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+import inventoryData from "../../data/inventory.json";
+import { collectionMeta, slugify } from "./meta";
 
 type InventoryItem = {
   id: string;
@@ -21,16 +20,9 @@ type InventoryItem = {
 
 export default function WardrobesPage() {
   const inventory = inventoryData as InventoryItem[];
-  const collections = Array.from(
-    new Set(
-      inventory
-        .map((item) => item.collection?.trim())
-        .filter((c): c is string => Boolean(c)),
-    ),
-  );
 
   const grouped = inventory.reduce<Record<string, InventoryItem[]>>((acc, item) => {
-    const key = item.collection || "Other";
+    const key = item.collection?.trim() || "Other";
     if (!acc[key]) acc[key] = [];
     acc[key].push(item);
     return acc;
@@ -126,7 +118,7 @@ export default function WardrobesPage() {
           inventory.
         </p>
 
-        {collections.map((collection) => {
+        {collectionMeta.map(({ name: collection, description }) => {
           const items = grouped[collection] || [];
           return (
             <div
@@ -156,6 +148,7 @@ export default function WardrobesPage() {
                   <div style={{ opacity: 0.7, fontSize: "0.95rem" }}>
                     {items.length} item{items.length === 1 ? "" : "s"}
                   </div>
+                  <div style={{ opacity: 0.72, marginTop: 6, lineHeight: 1.5 }}>{description}</div>
                 </div>
                 <a
                   href="#top"

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import inventoryData from "../../../data/inventory.json";
+import { collectionMeta, slugify } from "../meta";
 
 type InventoryItem = {
   id: string;
@@ -13,24 +14,20 @@ type InventoryItem = {
   image?: string;
 };
 
-const slugify = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-
 export default function NewArrivalsPage() {
   const items = inventoryData as InventoryItem[];
 
-  const collectionMap = items.reduce<Record<string, InventoryItem>>((acc, item) => {
-    if (!item.collection) return acc;
-    const key = item.collection.trim().toLowerCase();
-    if (!acc[key]) acc[key] = item; // first item per collection
-    return acc;
-  }, {});
-
-  const slides = Object.values(collectionMap).map((item) => ({
-    name: item.collection || "Wardrobe",
-    category: item.category,
-    image: item.image || "/inventory/placeholder.jpg",
-    href: `/wardrobes#${slugify(item.collection || "wardrobe")}`,
-  }));
+  const slides = collectionMeta.map((meta) => {
+    const match = items.find(
+      (i) => (i.collection || "").trim().toLowerCase() === meta.name.trim().toLowerCase(),
+    );
+    return {
+      name: meta.name,
+      category: match?.category || "Wardrobe",
+      image: match?.image || "/inventory/placeholder.jpg",
+      href: `/wardrobes#${slugify(meta.name)}`,
+    };
+  });
 
   const [index, setIndex] = React.useState(0);
 
