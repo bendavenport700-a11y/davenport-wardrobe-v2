@@ -59,6 +59,8 @@ export default function Home() {
       {/* GLOBAL STYLES */}
       <style>{`
         * { box-sizing: border-box; }
+        body { margin: 0; overflow-x: hidden; }
+        main { overflow-x: hidden; }
         a { color: inherit; text-decoration: none; }
         html { scroll-behavior: smooth; }
 
