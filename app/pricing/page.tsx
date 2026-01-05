@@ -19,10 +19,26 @@ export default function PricingPage() {
           Pricing
         </h1>
         <p style={{ opacity: 0.78, maxWidth: 760, lineHeight: 1.7 }}>
-          You pay for access, styling, cleaning, and shipping. The purchase price of
-          each piece adjusts based on age, original cost, condition, and demand—
-          so buying a pre-loved item gets cheaper as you rent it.
+          Simple model: your monthly access fee covers styling, cleaning, and swaps. If you want to keep a piece, you pay its live buyout price, which drops as it ages or shows wear.
         </p>
+
+        <div
+          style={{
+            marginTop: 22,
+            padding: 18,
+            borderRadius: 14,
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.04)",
+            display: "grid",
+            gap: 6,
+            maxWidth: 860,
+          }}
+        >
+          <div style={{ fontWeight: 600 }}>The fast version:</div>
+          <div style={{ opacity: 0.8, lineHeight: 1.6 }}>
+            1) Pay monthly access → 2) Get stylist-built rotations (cleaning + shipping included) → 3) Swap on schedule → 4) Keep anything by paying its current buyout, which decreases with age/condition.
+          </div>
+        </div>
 
         <div
           style={{
