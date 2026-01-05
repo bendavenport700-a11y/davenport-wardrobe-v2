@@ -484,6 +484,36 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PRICING LOGIC */}
+      <section style={{ padding: "70px 0 60px" }}>
+        <div className="container">
+          <h2 style={sectionTitle}>How pricing works here</h2>
+          <p style={sectionLead}>
+            Your monthly access covers styling, cleaning, and shipping. Each piece has a live buyout price that moves with age, condition, and demand—so the longer it’s in rotation, the cheaper it is to keep.
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: 18,
+            }}
+          >
+            <InfoCard
+              title="Access, not random fees"
+              text="Membership covers curation, fittings, cleaning, and swaps. No surprise charges when you rotate."
+            />
+            <InfoCard
+              title="Live buyout per piece"
+              text="We value items by original cost, age, wear, repairs, and brand demand. Prices decrease as items age."
+            />
+            <InfoCard
+              title="Transparent before you approve"
+              text="See each item’s buyout in your suitcase before shipping. New-only requests start at full value; pre-loved costs less."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* PROOF */}
       <section style={{ padding: "40px 0" }}>
         <div className="container">

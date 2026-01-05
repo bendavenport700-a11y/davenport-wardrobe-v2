@@ -19,8 +19,9 @@ export default function PricingPage() {
           Pricing
         </h1>
         <p style={{ opacity: 0.78, maxWidth: 760, lineHeight: 1.7 }}>
-          Choose a tier based on how often you want to rotate your wardrobe and how
-          premium you want it to feel. Upgrade anytime.
+          You pay for access, styling, cleaning, and shipping. The purchase price of
+          each piece adjusts based on age, original cost, condition, and demand—
+          so buying a pre-loved item gets cheaper as you rent it.
         </p>
 
         <div
@@ -31,21 +32,44 @@ export default function PricingPage() {
             marginTop: 36,
           }}
         >
-          <Tier title="Core" price="$79–$99 / mo" bullets={[
-            "Everyday casual wardrobe",
-            "1 swap per month",
-            "Best for college + simple routines",
+          <Tier title="Core Access" price="$79–$99 / mo" bullets={[
+            "Styling, cleaning, and shipping included",
+            "1 swap per month; see dynamic buyout prices per piece",
+            "Buyout drops as items age or show wear",
           ]} />
-          <Tier title="Flex" price="$129–$149 / mo" bullets={[
-            "More pieces, more variety",
-            "2 swaps per month",
-            "Best for changing weeks + social life",
+          <Tier title="Flex Access" price="$129–$149 / mo" bullets={[
+            "More pieces in rotation + 2 swaps per month",
+            "Mix new and gently used inventory",
+            "Buyout adjusts by age, condition, and demand",
           ]} />
-          <Tier title="Premium" price="$199–$249 / mo" bullets={[
-            "New-only option",
+          <Tier title="Premium Access" price="$199–$249 / mo" bullets={[
+            "Priority access to new drops and technical pieces",
             "More frequent swaps (launch perk)",
-            "Best for brand-focused wardrobe",
+            "New pieces start at higher buyout; drop as you rent",
           ]} />
+        </div>
+
+        <div
+          style={{
+            marginTop: 32,
+            padding: 22,
+            borderRadius: 16,
+            border: "1px solid rgba(255,255,255,0.12)",
+            background: "rgba(255,255,255,0.04)",
+            maxWidth: 920,
+          }}
+        >
+          <h3 style={{ margin: "0 0 10px" }}>How we value each piece</h3>
+          <ul style={{ paddingLeft: 18, opacity: 0.82, lineHeight: 1.75 }}>
+            <li>Original cost and category (technical outerwear vs basics)</li>
+            <li>Age in rotation and how many wears a piece has logged</li>
+            <li>Condition notes: like-new, light wear, repairs, or visible defects</li>
+            <li>Demand for the brand/style and seasonality</li>
+          </ul>
+          <p style={{ marginTop: 10, opacity: 0.72 }}>
+            You see the current buyout price in your suitcase before you approve a rotation,
+            and it decreases as pieces age or show wear. New-only requests start at full value.
+          </p>
         </div>
 
         <div style={{ marginTop: 28, opacity: 0.75 }}>
