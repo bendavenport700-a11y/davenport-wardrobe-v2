@@ -13,6 +13,20 @@ export default function Home() {
     "Rotations that keep up with you",
     "Packable, swappable, effortless",
   ];
+  const brandHighlights = [
+    "Alo Yoga",
+    "Lululemon",
+    "Vuori",
+    "Rhone",
+    "Patagonia",
+    "Arc'teryx",
+    "The North Face",
+    "L.L.Bean",
+    "Filson",
+    "Peter Millar",
+    "Vineyard Vines",
+    "Sperry",
+  ];
 
   const [index, setIndex] = React.useState(0);
   const inventory = inventoryData as InventoryItem[];
@@ -194,6 +208,22 @@ export default function Home() {
           font-size: 0.92rem;
         }
 
+        .brandGrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 10px;
+        }
+
+        .brandPill {
+          padding: 12px 14px;
+          border-radius: 12px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.12);
+          text-align: center;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+        }
+
         .stat {
           display: grid;
           gap: 6px;
@@ -332,6 +362,39 @@ export default function Home() {
           {/* ✅ small “proof” line, still minimal */}
           <div className="fade d5" style={{ marginTop: 18, opacity: 0.62, lineHeight: 1.7 }}>
             Built for campus, internships, travel, and everything that changes.
+          </div>
+        </div>
+      </section>
+
+      {/* BRAND SIGNAL */}
+      <section style={{ padding: "20px 0 80px" }}>
+        <div className="container">
+          <div
+            className="card"
+            style={{
+              display: "grid",
+              gap: 16,
+              alignItems: "center",
+              background:
+                "linear-gradient(120deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03))",
+              borderColor: "rgba(255,255,255,0.18)",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+              <h2 style={{ margin: 0, fontSize: "1.35rem", letterSpacing: "-0.01em" }}>
+                Elite mens athleisure, preppy, and technical labels we pull from
+              </h2>
+              <span style={{ opacity: 0.7, fontSize: "0.95rem" }}>
+                Curated rotations, not random brands.
+              </span>
+            </div>
+            <div className="brandGrid">
+              {brandHighlights.map((brand) => (
+                <div key={brand} className="brandPill">
+                  {brand}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
