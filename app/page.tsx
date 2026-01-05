@@ -27,6 +27,7 @@ export default function Home() {
     "Vineyard Vines",
     "Sperry",
   ];
+  const brandLoop = [...brandHighlights, ...brandHighlights];
 
   const [index, setIndex] = React.useState(0);
   const inventory = inventoryData as InventoryItem[];
@@ -214,6 +215,43 @@ export default function Home() {
           gap: 10px;
         }
 
+        .brandTicker {
+          position: relative;
+          overflow: hidden;
+          border-radius: 14px;
+        }
+
+        .brandTicker::before,
+        .brandTicker::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 80px;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .brandTicker::before {
+          left: 0;
+          background: linear-gradient(90deg, rgba(7,7,8,0.9), rgba(7,7,8,0));
+        }
+
+        .brandTicker::after {
+          right: 0;
+          background: linear-gradient(270deg, rgba(7,7,8,0.9), rgba(7,7,8,0));
+        }
+
+        .brandTrack {
+          display: flex;
+          gap: 10px;
+          animation: brandScroll 26s linear infinite;
+          will-change: transform;
+          flex-wrap: nowrap;
+          width: max-content;
+          padding: 6px 6px;
+        }
+
         .brandPill {
           padding: 12px 14px;
           border-radius: 12px;
@@ -222,6 +260,17 @@ export default function Home() {
           text-align: center;
           font-weight: 600;
           letter-spacing: -0.01em;
+          white-space: nowrap;
+          box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+
+        @keyframes brandScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .brandTrack { animation: none; }
         }
 
         .stat {
@@ -382,18 +431,20 @@ export default function Home() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
               <h2 style={{ margin: 0, fontSize: "1.35rem", letterSpacing: "-0.01em" }}>
-                Elite mens athleisure, preppy, and technical labels we pull from
+                Some of the labels we build rotations from
               </h2>
               <span style={{ opacity: 0.7, fontSize: "0.95rem" }}>
-                Curated rotations, not random brands.
+                Curated, not random drops. Always cohesive.
               </span>
             </div>
-            <div className="brandGrid">
-              {brandHighlights.map((brand) => (
-                <div key={brand} className="brandPill">
-                  {brand}
-                </div>
-              ))}
+            <div className="brandTicker">
+              <div className="brandTrack">
+                {brandLoop.map((brand, i) => (
+                  <div key={`${brand}-${i}`} className="brandPill">
+                    {brand}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
