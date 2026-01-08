@@ -451,25 +451,25 @@ export default function SurveyPage() {
                       </strong>
                       <ul className="bulletList">
                         <li>
-                          Billions of garments are produced each year, and many
-                          are worn only a few times before being discarded.
+                          A single t-shirt can take around 2,700 liters of water
+                          to make, and textile dyeing is a major source of water
+                          pollution in rivers.
                         </li>
                         <li>
-                          The system consumes enormous water and energy, creates
-                          mountains of textile waste, and releases microplastics
-                          into rivers and oceans as synthetic fabrics shed.
+                          Washing synthetic fabrics releases microplastics that
+                          end up in oceans and waterways.
                         </li>
                         <li>
-                          Fashion is one of the most polluting industries on the
-                          planet.
+                          The industry emits more carbon than international
+                          flights and maritime shipping combined.
                         </li>
                         <li>
-                          The equivalent of a truckload of textiles is landfilled
-                          or burned every second.
+                          The equivalent of a garbage truck of textiles is
+                          landfilled or burned every second.
                         </li>
                         <li>
-                          The result is clothing treated as disposable, even when
-                          quality pieces could be used far longer.
+                          Most clothes are made as blends that are difficult to
+                          recycle, so very little ever becomes new clothing.
                         </li>
                       </ul>
                       <div className="hint">
