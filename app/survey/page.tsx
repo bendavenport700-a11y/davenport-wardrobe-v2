@@ -14,7 +14,6 @@ type FormData = {
   concerns: string;
   joinWaitlist: boolean;
   email: string;
-  sustainabilityRead: boolean;
 };
 
 const initialFormData: FormData = {
@@ -28,7 +27,6 @@ const initialFormData: FormData = {
   concerns: "",
   joinWaitlist: false,
   email: "",
-  sustainabilityRead: false,
 };
 
 export default function SurveyPage() {
@@ -36,7 +34,7 @@ export default function SurveyPage() {
   const [submitted, setSubmitted] = React.useState(false);
   const [formData, setFormData] = React.useState<FormData>(initialFormData);
 
-  const totalSteps = 7;
+  const totalSteps = 9;
 
   const toggleSelection = (
     list: "shoppingFeelings" | "usageHabits",
@@ -55,7 +53,6 @@ export default function SurveyPage() {
 
   const handleNext = (event: React.FormEvent) => {
     event.preventDefault();
-    if (step === 4 && !formData.sustainabilityRead) return;
     if (step < totalSteps - 1) {
       setStep((prev) => prev + 1);
       return;
@@ -141,7 +138,7 @@ export default function SurveyPage() {
 
         label {
           font-weight: 600;
-          font-size: 0.98rem;
+          font-size: 1.05rem;
         }
 
         select, input[type="text"], input[type="email"], textarea {
@@ -181,6 +178,21 @@ export default function SurveyPage() {
         .option:hover {
           border-color: rgba(255,255,255,0.26);
           background: rgba(255,255,255,0.07);
+        }
+
+        .sectionTitle {
+          font-size: 1.35rem;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .bulletList {
+          margin: 0;
+          padding-left: 18px;
+          display: grid;
+          gap: 8px;
+          color: rgba(255,255,255,0.82);
+          line-height: 1.6;
         }
 
         .actions {
@@ -297,7 +309,7 @@ export default function SurveyPage() {
               <div key={step} className="stepFade">
                 {step === 0 && (
                   <>
-                    <h2 style={{ margin: 0 }}>About you</h2>
+                    <h2 className="sectionTitle">About you</h2>
                     <p className="hint">
                       This is light and optional. Share only what feels right.
                     </p>
@@ -334,7 +346,7 @@ export default function SurveyPage() {
 
                 {step === 1 && (
                   <>
-                    <h2 style={{ margin: 0 }}>How you think about clothes</h2>
+                    <h2 className="sectionTitle">How you think about clothes</h2>
                     <p className="hint">
                       This helps us understand what matters most to you.
                     </p>
@@ -369,12 +381,12 @@ export default function SurveyPage() {
 
                 {step === 2 && (
                   <>
-                    <h2 style={{ margin: 0 }}>Shopping friction</h2>
+                    <h2 className="sectionTitle">Shopping friction</h2>
                     <p className="hint">
                       Choose what feels true. Select all that apply.
                     </p>
                     <div className="field">
-                      <label>How does shopping for clothes usually feel</label>
+                      <label>How does clothes shopping usually feel</label>
                       <div className="optionRow">
                         {[
                           "A hassle",
@@ -401,7 +413,7 @@ export default function SurveyPage() {
 
                 {step === 3 && (
                   <>
-                    <h2 style={{ margin: 0 }}>How you actually use clothes</h2>
+                    <h2 className="sectionTitle">How you actually use clothes</h2>
                     <p className="hint">
                       This section is about patterns, not perfection. Select all
                       that apply.
@@ -432,50 +444,45 @@ export default function SurveyPage() {
 
                 {step === 4 && (
                   <>
-                    <h2 style={{ margin: 0 }}>Sustainability context</h2>
-                    <div className="waitlistCallout">
+                    <h2 className="sectionTitle">Sustainability context</h2>
+                    <div className="callout">
                       <strong>
                         Fast fashion prioritizes speed and volume over longevity.
                       </strong>
-                      <div className="hint">
-                        Billions of garments are produced each year, and many are
-                        worn only a few times before being discarded.
-                      </div>
-                      <div className="hint">
-                        This system consumes enormous water and energy, creates
-                        mountains of textile waste, and releases microplastics
-                        into rivers and oceans as synthetic fabrics shed.
-                      </div>
-                      <div className="hint">
-                        Fashion is one of the most polluting industries on the
-                        planet.
-                      </div>
-                      <div className="hint">
-                        The equivalent of a truckload of textiles is landfilled
-                        or burned every second.
-                      </div>
-                      <div className="hint">
-                        The result is clothing treated as disposable, even when
-                        quality pieces could be used far longer.
-                      </div>
+                      <ul className="bulletList">
+                        <li>
+                          Billions of garments are produced each year, and many
+                          are worn only a few times before being discarded.
+                        </li>
+                        <li>
+                          The system consumes enormous water and energy, creates
+                          mountains of textile waste, and releases microplastics
+                          into rivers and oceans as synthetic fabrics shed.
+                        </li>
+                        <li>
+                          Fashion is one of the most polluting industries on the
+                          planet.
+                        </li>
+                        <li>
+                          The equivalent of a truckload of textiles is landfilled
+                          or burned every second.
+                        </li>
+                        <li>
+                          The result is clothing treated as disposable, even when
+                          quality pieces could be used far longer.
+                        </li>
+                      </ul>
                       <div className="hint">
                         We believe access to clothing should be more thoughtful,
                         without sacrificing style or convenience.
                       </div>
                     </div>
-                    <label className="option">
-                      <input
-                        type="checkbox"
-                        checked={formData.sustainabilityRead}
-                        onChange={(event) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            sustainabilityRead: event.target.checked,
-                          }))
-                        }
-                      />
-                      I have read this
-                    </label>
+                  </>
+                )}
+
+                {step === 5 && (
+                  <>
+                    <h2 className="sectionTitle">Sustainability</h2>
                     <div className="field">
                       <label>Does sustainability matter to you when shopping for clothes</label>
                       <div className="optionRow">
@@ -501,33 +508,47 @@ export default function SurveyPage() {
                   </>
                 )}
 
-                {step === 5 && (
+                {step === 6 && (
                   <>
-                    <h2 style={{ margin: 0 }}>Davenport Wardrobe</h2>
+                    <h2 className="sectionTitle">Davenport Wardrobe</h2>
                     <div className="callout">
                       <strong>
                         Davenport Wardrobe is a modern way to access clothing,
                         without constantly shopping or overbuying.
                       </strong>
-                      <div className="hint">
-                        Instead of owning everything outright, you choose from
-                        curated wardrobes or individual pieces. Every item shows
-                        its condition before it ships, brand new or lightly worn.
-                      </div>
-                      <div className="hint">
-                        You wear what fits your life, rotate when your needs
-                        change, and keep or buy what you love.
-                      </div>
-                      <div className="hint">
-                        This is not a traditional rental service. Ownership is
-                        always your choice. The goal is flexibility, transparency,
-                        and better use of premium clothing that already exists.
-                      </div>
+                      <ul className="bulletList">
+                        <li>
+                          Instead of owning everything outright, you choose from
+                          curated wardrobes or individual pieces.
+                        </li>
+                        <li>
+                          Every item shows its condition before it ships, brand new
+                          or lightly worn.
+                        </li>
+                        <li>
+                          You wear what fits your life, rotate when your needs
+                          change, and keep or buy what you love.
+                        </li>
+                        <li>
+                          This is not a traditional rental service. Ownership is
+                          always your choice.
+                        </li>
+                        <li>
+                          The goal is flexibility, transparency, and better use of
+                          premium clothing that already exists.
+                        </li>
+                      </ul>
                       <div className="hint">
                         It feels like a wardrobe that adapts to you, with clear
                         choices, refined styling, and a closet that stays light.
                       </div>
                     </div>
+                  </>
+                )}
+
+                {step === 7 && (
+                  <>
+                    <h2 className="sectionTitle">Davenport Wardrobe</h2>
                     <div className="field">
                       <label>Would you consider using a service like Davenport Wardrobe</label>
                       <div className="optionRow">
@@ -585,15 +606,15 @@ export default function SurveyPage() {
                   </>
                 )}
 
-                {step === 6 && (
+                {step === 8 && (
                   <>
-                    <h2 style={{ margin: 0 }}>Want early access</h2>
+                    <h2 className="sectionTitle">Want early access</h2>
                     <p className="hint">
                       If you want to be among the first to try Davenport
                       Wardrobe, leave your email below. This is optional, and
                       we only reach out with updates about Davenport Wardrobe.
                     </p>
-                    <div className="callout">
+                    <div className="waitlistCallout">
                       <label className="option">
                         <input
                           type="checkbox"
