@@ -4,41 +4,31 @@ import React from "react";
 import Link from "next/link";
 
 type FormData = {
-  ageRange: string;
-  status: string;
-  styleFrequency: string;
-  clothingSources: string[];
-  shoppingFriction: string;
-  rarelyWorn: string;
-  regularWearCount: string;
-  wearChange: string;
-  clutterRegret: string;
-  sustainabilityShift: string;
-  sustainabilityPriority: string;
+  aboutYou: string;
+  styleMindset: string;
+  shoppingFeelings: string[];
+  usageHabits: string[];
+  sustainabilityMatters: string;
   considerUse: string;
-  concerns: string;
   appeal: string;
+  concerns: string;
   joinWaitlist: boolean;
   email: string;
+  sustainabilityRead: boolean;
 };
 
 const initialFormData: FormData = {
-  ageRange: "",
-  status: "",
-  styleFrequency: "",
-  clothingSources: [],
-  shoppingFriction: "",
-  rarelyWorn: "",
-  regularWearCount: "",
-  wearChange: "",
-  clutterRegret: "",
-  sustainabilityShift: "",
-  sustainabilityPriority: "",
+  aboutYou: "",
+  styleMindset: "",
+  shoppingFeelings: [],
+  usageHabits: [],
+  sustainabilityMatters: "",
   considerUse: "",
-  concerns: "",
   appeal: "",
+  concerns: "",
   joinWaitlist: false,
   email: "",
+  sustainabilityRead: false,
 };
 
 export default function SurveyPage() {
@@ -46,22 +36,26 @@ export default function SurveyPage() {
   const [submitted, setSubmitted] = React.useState(false);
   const [formData, setFormData] = React.useState<FormData>(initialFormData);
 
-  const totalSteps = 6;
+  const totalSteps = 7;
 
-  const toggleSource = (value: string) => {
+  const toggleSelection = (
+    list: "shoppingFeelings" | "usageHabits",
+    value: string
+  ) => {
     setFormData((prev) => {
-      const exists = prev.clothingSources.includes(value);
+      const exists = prev[list].includes(value);
       return {
         ...prev,
-        clothingSources: exists
-          ? prev.clothingSources.filter((item) => item !== value)
-          : [...prev.clothingSources, value],
+        [list]: exists
+          ? prev[list].filter((item) => item !== value)
+          : [...prev[list], value],
       };
     });
   };
 
   const handleNext = (event: React.FormEvent) => {
     event.preventDefault();
+    if (step === 4 && !formData.sustainabilityRead) return;
     if (step < totalSteps - 1) {
       setStep((prev) => prev + 1);
       return;
@@ -97,6 +91,21 @@ export default function SurveyPage() {
           padding: 28px;
           display: grid;
           gap: 18px;
+          box-shadow: 0 24px 50px rgba(0,0,0,0.28);
+        }
+
+        .progressTrack {
+          height: 6px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.08);
+          overflow: hidden;
+        }
+
+        .progressFill {
+          height: 100%;
+          border-radius: inherit;
+          background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.35));
+          transition: width 0.4s ease;
         }
 
         .eyebrow {
@@ -162,10 +171,16 @@ export default function SurveyPage() {
           border-radius: 12px;
           background: rgba(255,255,255,0.04);
           border: 1px solid rgba(255,255,255,0.1);
+          transition: border-color 0.2s ease, background 0.2s ease;
         }
 
         .option input {
           accent-color: #fff;
+        }
+
+        .option:hover {
+          border-color: rgba(255,255,255,0.26);
+          background: rgba(255,255,255,0.07);
         }
 
         .actions {
@@ -200,6 +215,34 @@ export default function SurveyPage() {
           opacity: 0.65;
           font-size: 0.95rem;
           line-height: 1.6;
+        }
+
+        .callout {
+          border-radius: 16px;
+          padding: 18px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.18);
+          display: grid;
+          gap: 10px;
+        }
+
+        .waitlistCallout {
+          border-radius: 18px;
+          padding: 20px;
+          background: linear-gradient(140deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+          border: 1px solid rgba(255,255,255,0.28);
+          box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+          display: grid;
+          gap: 12px;
+        }
+
+        .stepFade {
+          animation: stepFade 0.35s ease;
+        }
+
+        @keyframes stepFade {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         .thankYou {
@@ -244,406 +287,348 @@ export default function SurveyPage() {
               <div className="stepMeta">
                 Step {step + 1} of {totalSteps}
               </div>
+              <div className="progressTrack" aria-hidden="true">
+                <div
+                  className="progressFill"
+                  style={{ width: `${((step + 1) / totalSteps) * 100}%` }}
+                />
+              </div>
 
-              {step === 0 && (
-                <>
-                  <h2 style={{ margin: 0 }}>About you</h2>
-                  <p className="hint">
-                    A few light questions to set the context. Skip anything you
-                    prefer not to answer.
-                  </p>
-                  <div className="field">
-                    <label htmlFor="ageRange">Age range</label>
-                    <select
-                      id="ageRange"
-                      value={formData.ageRange}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          ageRange: event.target.value,
-                        }))
-                      }
-                    >
-                      <option value="">Select one</option>
-                      <option value="under-18">Under 18</option>
-                      <option value="18-20">18 to 20</option>
-                      <option value="21-24">21 to 24</option>
-                      <option value="25-29">25 to 29</option>
-                      <option value="30-39">30 to 39</option>
-                      <option value="40-plus">40 or older</option>
-                      <option value="prefer-not">Prefer not to say</option>
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="status">Which best describes you today</label>
-                    <select
-                      id="status"
-                      value={formData.status}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          status: event.target.value,
-                        }))
-                      }
-                    >
-                      <option value="">Select one</option>
-                      <option value="student">Student</option>
-                      <option value="working-full">Working full time</option>
-                      <option value="working-part">Working part time</option>
-                      <option value="self-employed">Self employed</option>
-                      <option value="other">Other</option>
-                      <option value="prefer-not">Prefer not to say</option>
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="styleFrequency">
-                      How often do you think about what you wear
-                    </label>
-                    <select
-                      id="styleFrequency"
-                      value={formData.styleFrequency}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          styleFrequency: event.target.value,
-                        }))
-                      }
-                    >
-                      <option value="">Select one</option>
-                      <option value="rarely">Rarely</option>
-                      <option value="sometimes">Sometimes</option>
-                      <option value="often">Often</option>
-                      <option value="daily">Almost daily</option>
-                    </select>
-                  </div>
-                </>
-              )}
-
-              {step === 1 && (
-                <>
-                  <h2 style={{ margin: 0 }}>Clothing habits</h2>
-                  <p className="hint">
-                    We want to understand how you currently get clothes and
-                    where it feels hard.
-                  </p>
-                  <div className="field">
-                    <label>How do you usually get clothes</label>
-                    <div className="optionRow">
-                      {[
-                        "I shop online",
-                        "I shop in store",
-                        "Gifts or hand me downs",
-                        "Holiday or event shopping",
-                        "I rarely shop",
-                        "Other",
-                      ].map((option) => (
-                        <label key={option} className="option">
-                          <input
-                            type="checkbox"
-                            checked={formData.clothingSources.includes(option)}
-                            onChange={() => toggleSource(option)}
-                          />
-                          {option}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label>How often does shopping feel inconvenient</label>
-                    <div className="optionRow">
-                      {["Never", "Sometimes", "Often", "Almost always"].map(
-                        (option) => (
+              <div key={step} className="stepFade">
+                {step === 0 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>About you</h2>
+                    <p className="hint">
+                      This is light and optional. Share only what feels right.
+                    </p>
+                    <div className="field">
+                      <label>Which best describes you</label>
+                      <div className="optionRow">
+                        {[
+                          "Student",
+                          "Parent",
+                          "Young professional",
+                          "Recent graduate",
+                          "Other",
+                        ].map((option) => (
                           <label key={option} className="option">
                             <input
                               type="radio"
-                              name="shoppingFriction"
+                              name="aboutYou"
                               value={option}
-                              checked={formData.shoppingFriction === option}
+                              checked={formData.aboutYou === option}
                               onChange={(event) =>
                                 setFormData((prev) => ({
                                   ...prev,
-                                  shoppingFriction: event.target.value,
+                                  aboutYou: event.target.value,
                                 }))
                               }
                             />
                             {option}
                           </label>
-                        )
-                      )}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="field">
-                    <label>Have you bought clothes you rarely wear</label>
-                    <div className="optionRow">
-                      {["Yes", "No", "Not sure"].map((option) => (
-                        <label key={option} className="option">
-                          <input
-                            type="radio"
-                            name="rarelyWorn"
-                            value={option}
-                            checked={formData.rarelyWorn === option}
-                            onChange={(event) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                rarelyWorn: event.target.value,
-                              }))
-                            }
-                          />
-                          {option}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
 
-              {step === 2 && (
-                <>
-                  <h2 style={{ margin: 0 }}>The reality of wear</h2>
-                  <p className="hint">
-                    A quick reflection on what actually gets worn.
-                  </p>
-                  <div className="field">
-                    <label htmlFor="regularWearCount">
-                      About how many items do you wear regularly
-                    </label>
-                    <select
-                      id="regularWearCount"
-                      value={formData.regularWearCount}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          regularWearCount: event.target.value,
-                        }))
-                      }
-                    >
-                      <option value="">Select one</option>
-                      <option value="10-15">10 to 15</option>
-                      <option value="16-25">16 to 25</option>
-                      <option value="26-40">26 to 40</option>
-                      <option value="40-plus">More than 40</option>
-                      <option value="not-sure">Not sure</option>
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label>
-                      Most quality clothes look and feel similar after a few
-                      wears or washes
-                    </label>
-                    <div className="optionRow">
-                      {["Agree", "Somewhat agree", "Not sure", "Disagree"].map(
-                        (option) => (
+                {step === 1 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>How you think about clothes</h2>
+                    <p className="hint">
+                      This helps us understand what matters most to you.
+                    </p>
+                    <div className="field">
+                      <label>Do you think about clothes on a regular basis</label>
+                      <div className="optionRow">
+                        {[
+                          "Yes, it is something I care about",
+                          "Sometimes, depending on the situation",
+                          "Not really, I just want it to be easy",
+                        ].map((option) => (
                           <label key={option} className="option">
                             <input
                               type="radio"
-                              name="wearChange"
+                              name="styleMindset"
                               value={option}
-                              checked={formData.wearChange === option}
+                              checked={formData.styleMindset === option}
                               onChange={(event) =>
                                 setFormData((prev) => ({
                                   ...prev,
-                                  wearChange: event.target.value,
+                                  styleMindset: event.target.value,
                                 }))
                               }
                             />
                             {option}
                           </label>
-                        )
-                      )}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="field">
-                    <label>Have you experienced closet clutter or regret</label>
-                    <div className="optionRow">
-                      {["Yes", "Sometimes", "No"].map((option) => (
-                        <label key={option} className="option">
-                          <input
-                            type="radio"
-                            name="clutterRegret"
-                            value={option}
-                            checked={formData.clutterRegret === option}
-                            onChange={(event) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                clutterRegret: event.target.value,
-                              }))
-                            }
-                          />
-                          {option}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
 
-              {step === 3 && (
-                <>
-                  <h2 style={{ margin: 0 }}>Sustainability</h2>
-                  <p className="hint">
-                    Fast fashion favors speed and volume. It often leaves
-                    clothing underused and pushes resources harder than needed.
-                    We are exploring a more thoughtful way to access style.
-                  </p>
-                  <div className="field">
-                    <label>Does this change how you think about clothing</label>
-                    <div className="optionRow">
-                      {["Yes", "Somewhat", "Not really"].map((option) => (
-                        <label key={option} className="option">
-                          <input
-                            type="radio"
-                            name="sustainabilityShift"
-                            value={option}
-                            checked={formData.sustainabilityShift === option}
-                            onChange={(event) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                sustainabilityShift: event.target.value,
-                              }))
-                            }
-                          />
-                          {option}
-                        </label>
-                      ))}
+                {step === 2 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>Shopping friction</h2>
+                    <p className="hint">
+                      Choose what feels true. Select all that apply.
+                    </p>
+                    <div className="field">
+                      <label>How does shopping for clothes usually feel</label>
+                      <div className="optionRow">
+                        {[
+                          "A hassle",
+                          "A waste of time",
+                          "Stressful or overwhelming",
+                          "Enjoyable",
+                          "Something I put off as long as possible",
+                        ].map((option) => (
+                          <label key={option} className="option">
+                            <input
+                              type="checkbox"
+                              checked={formData.shoppingFeelings.includes(option)}
+                              onChange={() =>
+                                toggleSelection("shoppingFeelings", option)
+                              }
+                            />
+                            {option}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="field">
-                    <label>Does sustainability matter when you shop</label>
-                    <div className="optionRow">
-                      {[
-                        "Very much",
-                        "Somewhat",
-                        "Not a priority",
-                        "It depends",
-                      ].map((option) => (
-                        <label key={option} className="option">
-                          <input
-                            type="radio"
-                            name="sustainabilityPriority"
-                            value={option}
-                            checked={formData.sustainabilityPriority === option}
-                            onChange={(event) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                sustainabilityPriority: event.target.value,
-                              }))
-                            }
-                          />
-                          {option}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
 
-              {step === 4 && (
-                <>
-                  <h2 style={{ margin: 0 }}>Davenport Wardrobe</h2>
-                  <p className="hint">
-                    Davenport Wardrobe is a wardrobe access and rotation
-                    platform. You choose curated wardrobes or individual pieces,
-                    see condition before they ship, then rotate, keep, or buy.
-                    It is not a traditional rental service, and ownership is
-                    always your choice.
-                  </p>
-                  <div className="field">
-                    <label>Would you consider using a service like this</label>
-                    <div className="optionRow">
-                      {["Yes", "Maybe", "Not right now"].map((option) => (
-                        <label key={option} className="option">
-                          <input
-                            type="radio"
-                            name="considerUse"
-                            value={option}
-                            checked={formData.considerUse === option}
-                            onChange={(event) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                considerUse: event.target.value,
-                              }))
-                            }
-                          />
-                          {option}
-                        </label>
-                      ))}
+                {step === 3 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>How you actually use clothes</h2>
+                    <p className="hint">
+                      This section is about patterns, not perfection. Select all
+                      that apply.
+                    </p>
+                    <div className="field">
+                      <label>Which of these sounds like you</label>
+                      <div className="optionRow">
+                        {[
+                          "I rotate the same core pieces most weeks",
+                          "I buy clothes mainly for specific events or occasions",
+                          "I replace items when they wear out or go out of style",
+                          "I own more clothes than I regularly wear",
+                          "I often forget about pieces I already own",
+                        ].map((option) => (
+                          <label key={option} className="option">
+                            <input
+                              type="checkbox"
+                              checked={formData.usageHabits.includes(option)}
+                              onChange={() => toggleSelection("usageHabits", option)}
+                            />
+                            {option}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="concerns">
-                      What questions or concerns do you have
+                  </>
+                )}
+
+                {step === 4 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>Sustainability context</h2>
+                    <div className="waitlistCallout">
+                      <strong>
+                        Fast fashion prioritizes speed and volume over longevity.
+                      </strong>
+                      <div className="hint">
+                        Billions of garments are produced each year, and many are
+                        worn only a few times before being discarded.
+                      </div>
+                      <div className="hint">
+                        This system consumes enormous water and energy, creates
+                        mountains of textile waste, and releases microplastics
+                        into rivers and oceans as synthetic fabrics shed.
+                      </div>
+                      <div className="hint">
+                        Fashion is one of the most polluting industries on the
+                        planet.
+                      </div>
+                      <div className="hint">
+                        The equivalent of a truckload of textiles is landfilled
+                        or burned every second.
+                      </div>
+                      <div className="hint">
+                        The result is clothing treated as disposable, even when
+                        quality pieces could be used far longer.
+                      </div>
+                      <div className="hint">
+                        We believe access to clothing should be more thoughtful,
+                        without sacrificing style or convenience.
+                      </div>
+                    </div>
+                    <label className="option">
+                      <input
+                        type="checkbox"
+                        checked={formData.sustainabilityRead}
+                        onChange={(event) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            sustainabilityRead: event.target.checked,
+                          }))
+                        }
+                      />
+                      I have read this
                     </label>
-                    <textarea
-                      id="concerns"
-                      value={formData.concerns}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          concerns: event.target.value,
-                        }))
-                      }
-                      placeholder="Optional"
-                    />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="appeal">
-                      What would make this more appealing
-                    </label>
-                    <textarea
-                      id="appeal"
-                      value={formData.appeal}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          appeal: event.target.value,
-                        }))
-                      }
-                      placeholder="Optional"
-                    />
-                  </div>
-                </>
-              )}
+                    <div className="field">
+                      <label>Does sustainability matter to you when shopping for clothes</label>
+                      <div className="optionRow">
+                        {["Yes", "Somewhat", "No"].map((option) => (
+                          <label key={option} className="option">
+                            <input
+                              type="radio"
+                              name="sustainabilityMatters"
+                              value={option}
+                              checked={formData.sustainabilityMatters === option}
+                              onChange={(event) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  sustainabilityMatters: event.target.value,
+                                }))
+                              }
+                            />
+                            {option}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
 
-              {step === 5 && (
-                <>
-                  <h2 style={{ margin: 0 }}>Optional waitlist</h2>
-                  <p className="hint">
-                    If you want early access, share an email. This is optional,
-                    and we only reach out about Davenport Wardrobe.
-                  </p>
-                  <label className="option">
-                    <input
-                      type="checkbox"
-                      checked={formData.joinWaitlist}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          joinWaitlist: event.target.checked,
-                        }))
-                      }
-                    />
-                    Yes, I want early access
-                  </label>
-                  <div className="field">
-                    <label htmlFor="email">Email address</label>
-                    <input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(event) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          email: event.target.value,
-                        }))
-                      }
-                      placeholder="Optional"
-                    />
-                  </div>
-                  <div className="hint">
-                    We respect your privacy. No spam, and no sharing.
-                  </div>
-                </>
-              )}
+                {step === 5 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>Davenport Wardrobe</h2>
+                    <div className="callout">
+                      <strong>
+                        Davenport Wardrobe is a modern way to access clothing,
+                        without constantly shopping or overbuying.
+                      </strong>
+                      <div className="hint">
+                        Instead of owning everything outright, you choose from
+                        curated wardrobes or individual pieces. Every item shows
+                        its condition before it ships, brand new or lightly worn.
+                      </div>
+                      <div className="hint">
+                        You wear what fits your life, rotate when your needs
+                        change, and keep or buy what you love.
+                      </div>
+                      <div className="hint">
+                        This is not a traditional rental service. Ownership is
+                        always your choice. The goal is flexibility, transparency,
+                        and better use of premium clothing that already exists.
+                      </div>
+                      <div className="hint">
+                        It feels like a wardrobe that adapts to you, with clear
+                        choices, refined styling, and a closet that stays light.
+                      </div>
+                    </div>
+                    <div className="field">
+                      <label>Would you consider using a service like Davenport Wardrobe</label>
+                      <div className="optionRow">
+                        {["Yes", "Maybe", "Not right now"].map((option) => (
+                          <label key={option} className="option">
+                            <input
+                              type="radio"
+                              name="considerUse"
+                              value={option}
+                              checked={formData.considerUse === option}
+                              onChange={(event) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  considerUse: event.target.value,
+                                }))
+                              }
+                            />
+                            {option}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="field">
+                      <label htmlFor="appeal">
+                        What would make this most appealing to you
+                      </label>
+                      <textarea
+                        id="appeal"
+                        value={formData.appeal}
+                        onChange={(event) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            appeal: event.target.value,
+                          }))
+                        }
+                        placeholder="Optional"
+                      />
+                    </div>
+                    <div className="field">
+                      <label htmlFor="concerns">
+                        Do you have any questions or concerns
+                      </label>
+                      <textarea
+                        id="concerns"
+                        value={formData.concerns}
+                        onChange={(event) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            concerns: event.target.value,
+                          }))
+                        }
+                        placeholder="Optional"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {step === 6 && (
+                  <>
+                    <h2 style={{ margin: 0 }}>Want early access</h2>
+                    <p className="hint">
+                      If you want to be among the first to try Davenport
+                      Wardrobe, leave your email below. This is optional, and
+                      we only reach out with updates about Davenport Wardrobe.
+                    </p>
+                    <div className="callout">
+                      <label className="option">
+                        <input
+                          type="checkbox"
+                          checked={formData.joinWaitlist}
+                          onChange={(event) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              joinWaitlist: event.target.checked,
+                            }))
+                          }
+                        />
+                        Yes, I want early access
+                      </label>
+                      <div className="field">
+                        <label htmlFor="email">Email address</label>
+                        <input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(event) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              email: event.target.value,
+                            }))
+                          }
+                          placeholder="Optional"
+                        />
+                      </div>
+                      <div className="hint">
+                        We respect your privacy. No spam, and no sharing.
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
 
               <div className="actions">
                 <button
