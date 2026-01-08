@@ -7,11 +7,11 @@ import Image from "next/image";
 
 export default function Home() {
   const phrases = [
-    "A wardrobe built for your real life",
-    "Look sharp, own less",
-    "Concierge styling for students",
-    "Rotations that keep up with you",
-    "Packable, swappable, effortless",
+    "A wardrobe you access and rotate",
+    "Premium looks without owning everything",
+    "Concierge styling, made simple",
+    "Rotation that keeps up with you",
+    "Access first, ownership by choice",
   ];
   const brandHighlights = [
     "Alo Yoga",
@@ -376,22 +376,23 @@ export default function Home() {
             }}
           >
             A concierge wardrobe built for your schedule, trips, and campus
-            life. We pick, fit, and rotate pieces so you look sharp with half
-            the stuff—and none of the clutter.
+            life. Davenport Wardrobe is a wardrobe access and rotation platform,
+            not a rental service. Choose curated wardrobes or individual pieces,
+            see exact condition, then rotate, keep, or buy with confidence.
           </p>
 
           <div className="fade d3 pillRow">
             <div className="pill">
               <span style={{ opacity: 0.7 }}>✓</span>
-              Stylist curated rotations
+              Curated wardrobes or single pieces
             </div>
             <div className="pill">
               <span style={{ opacity: 0.7 }}>✓</span>
-              Student-friendly plans
+              Condition always stated
             </div>
             <div className="pill">
               <span style={{ opacity: 0.7 }}>✓</span>
-              Swap anytime, no re-buy cycle
+              Rotate, keep, or buy
             </div>
           </div>
 
@@ -433,10 +434,10 @@ export default function Home() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
               <h2 style={{ margin: 0, fontSize: "1.35rem", letterSpacing: "-0.01em" }}>
-                Some of the labels we build rotations from
+                Trusted brands we build rotations from
               </h2>
               <span style={{ opacity: 0.7, fontSize: "0.95rem" }}>
-                Curated, not random drops. Always cohesive.
+                Sourced from premium labels and trusted partners.
               </span>
             </div>
             <div className="brandTicker">
@@ -455,10 +456,13 @@ export default function Home() {
       {/* VALUE SECTION */}
       <section style={{ padding: "100px 0" }}>
         <div className="container">
-          <h2 style={sectionTitle}>Why Davenport works</h2>
+          <h2 style={sectionTitle}>Why Davenport feels easier</h2>
           <p style={sectionLead}>
-            We design, fit, and rotate wardrobes that match your week. Clear,
-            modern looks without overbuying or decision fatigue.
+            We design and rotate wardrobes that match your week, without the
+            endless shopping loop. Each piece lists its condition and wear,
+            because most premium garments still look and feel exceptional after
+            a few wears. Light wear is normal in daily wardrobes, and we make it
+            visible and intentional.
           </p>
 
           <div
@@ -470,15 +474,15 @@ export default function Home() {
           >
             <InfoCard
               title="Everything works together"
-              text="Capsule rotations that layer and mix, so every piece pulls its weight."
+              text="Cohesive rotations that layer and mix, so every piece earns its place."
             />
             <InfoCard
               title="Built for your calendar"
-              text="Campus, travel, recruiting, weekends. We plan the outfits so you never scramble."
+              text="Campus, travel, recruiting, weekends. We plan the rotation so you stay ready."
             />
             <InfoCard
-              title="Less stuff, better looks"
-              text="Own less, swap faster. Keep your closet calm and always ready to pack."
+              title="Less clutter, better looks"
+              text="Rotate more, buy only what you love. Keep your closet calm and easy to pack."
             />
           </div>
         </div>
@@ -489,7 +493,9 @@ export default function Home() {
         <div className="container">
           <h2 style={sectionTitle}>How pricing works here</h2>
           <p style={sectionLead}>
-            Your monthly access covers styling, cleaning, and shipping. Each piece has a live buyout price that moves with age, condition, and demand—so the longer it’s in rotation, the cheaper it is to keep.
+            Your monthly access covers styling, cleaning, and shipping. Each
+            piece has a live buyout price that moves with age, condition, and
+            demand, so the longer it stays in rotation, the lower the buyout.
           </p>
           <div
             style={{
@@ -500,7 +506,7 @@ export default function Home() {
           >
             <InfoCard
               title="Access, not random fees"
-              text="Membership covers curation, fittings, cleaning, and swaps. No surprise charges when you rotate."
+              text="Membership covers curation, fittings, cleaning, and swaps. It is access and rotation with buy options, not a rental plan."
             />
             <InfoCard
               title="Live buyout per piece"
@@ -508,7 +514,7 @@ export default function Home() {
             />
             <InfoCard
               title="Transparent before you approve"
-              text="See each item’s buyout in your suitcase before shipping. New-only requests start at full value; pre-loved costs less."
+              text="See each item buyout in your suitcase before shipping. New only requests start at full value, while lightly worn costs less."
             />
           </div>
         </div>
@@ -526,15 +532,15 @@ export default function Home() {
           >
             <div className="stat">
               <div className="statLabel">Made for changing routines</div>
-              <div className="statValue">Campus → internships → travel</div>
+              <div className="statValue">School, work, travel, transitions</div>
             </div>
             <div className="stat">
               <div className="statLabel">Time saved weekly</div>
-              <div className="statValue">No shopping, zero guesswork</div>
+              <div className="statValue">No constant shopping or guesswork</div>
             </div>
             <div className="stat">
-              <div className="statLabel">Clutter avoided</div>
-              <div className="statValue">Rotate, don’t rebuy</div>
+              <div className="statLabel">Regret purchases avoided</div>
+              <div className="statValue">Rotate first, buy only what you love</div>
             </div>
           </div>
         </div>
@@ -575,17 +581,17 @@ export default function Home() {
             <StepCard
               number="1"
               title="Tell us your week"
-              text="Share your campus schedule, trips, dress code, and size. We build around your real life."
+              text="Share your schedule, size, and style. Choose from curated wardrobes or individual pieces."
             />
             <StepCard
               number="2"
               title="We assemble the rotation"
-              text="Stylists curate pieces that fit, layer, and pack easily. You approve before anything ships."
+              text="Stylists curate pieces that fit, layer, and pack easily. Each item lists exact condition, and you can choose new only or lightly worn."
             />
             <StepCard
               number="3"
-              title="Wear, swap, stay ready"
-              text="Keep what works, rotate what doesn’t. Fresh drops for interviews, events, or last-minute travel."
+              title="Wear, rotate, stay ready"
+              text="Keep what works, rotate what does not. Buy what you love, and never overbuy."
             />
           </div>
         </div>
@@ -608,15 +614,15 @@ export default function Home() {
             />
             <InfoCard
               title="Weekend trips"
-              text="Packable capsules that fit in a carry-on. Swap pieces before you go."
+              text="Packable capsules that fit in a carry on. Swap pieces before you go."
             />
             <InfoCard
               title="Events & presentations"
-              text="Polished options ready when you need to show up—no last-minute scramble."
+              text="Polished options ready when you need to show up, with no last minute scramble."
             />
             <InfoCard
               title="Season shifts"
-              text="Swap as weather changes. Keep your closet lean and in-season."
+              text="Swap as weather changes. Keep your closet lean and in season."
             />
           </div>
         </div>
@@ -627,8 +633,8 @@ export default function Home() {
         <div className="container">
           <h2 style={sectionTitle}>Inventory preview</h2>
           <p style={sectionLead}>
-            Add or edit items in <code>data/inventory.json</code> and drop photos in{" "}
-            <code>public/inventory/</code>. The grid below reads straight from that file.
+            A glimpse of the rotation. Every piece lists size and condition, so
+            you know exactly what arrives.
           </p>
           <div
             style={{
