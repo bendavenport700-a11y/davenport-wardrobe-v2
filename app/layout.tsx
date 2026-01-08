@@ -61,6 +61,9 @@ export default function RootLayout({
             <Link href="/faq" style={linkStyle} className="dw-link">
               FAQ
             </Link>
+            <Link href="/survey" style={feedbackLinkStyle} className="dw-link dw-feedback">
+              Help shape Davenport Wardrobe
+            </Link>
             <Link href="/account" style={linkStyle} className="dw-link">
               Account
             </Link>
@@ -93,6 +96,9 @@ export default function RootLayout({
               </Link>
               <Link href="/faq" className="dw-mobile-link">
                 FAQ
+              </Link>
+              <Link href="/survey" className="dw-mobile-link dw-feedback">
+                Help shape Davenport Wardrobe
               </Link>
               <Link href="/account" className="dw-mobile-link">
                 Account
@@ -190,6 +196,11 @@ export default function RootLayout({
           .dw-mobile-link:active {
             opacity: 1;
           }
+          .dw-feedback {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.28);
+            opacity: 1;
+          }
           .dw-mobile-sub {
             padding: 8px;
             border-radius: 12px;
@@ -280,6 +291,13 @@ const linkStyle: StyleWithClass = {
   borderRadius: 10,
   transition: "opacity 0.2s ease, transform 0.2s ease, background 0.2s ease",
   className: "dw-link",
+};
+
+const feedbackLinkStyle: StyleWithClass = {
+  ...linkStyle,
+  opacity: 1,
+  background: "rgba(255,255,255,0.12)",
+  border: "1px solid rgba(255,255,255,0.28)",
 };
 
 const dropdownStyle: StyleWithClass = {
