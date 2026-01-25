@@ -24,8 +24,8 @@ export default function Home() {
       style={{
         fontFamily: "'Inter', 'SF Pro Display', system-ui, sans-serif",
         background:
-          "radial-gradient(1200px 650px at 15% -12%, #2b3b34 0%, #0b0f0d 55%), radial-gradient(900px 560px at 85% 4%, rgba(170,141,86,0.35), transparent 60%), #0a0c0b",
-        color: "#f6f1e9",
+          "radial-gradient(1400px 760px at 12% -18%, #2b4437 0%, #0b0f0d 58%), radial-gradient(900px 560px at 85% 6%, rgba(214,178,102,0.45), transparent 60%), radial-gradient(800px 620px at 50% 120%, rgba(88,140,118,0.35), transparent 62%), #070907",
+        color: "#f8f3ea",
         minHeight: "100vh",
       }}
     >
@@ -59,6 +59,12 @@ export default function Home() {
           to { opacity: 1; transform: translateY(0); }
         }
 
+        .heroTitle {
+          background: linear-gradient(120deg, #f5e0b4 0%, #ffffff 45%, #a9e3c7 100%);
+          -webkit-background-clip: text;
+          color: transparent;
+        }
+
         /* ✅ Subtle luxury animation (very light, matches your style) */
         .softGlow {
           position: absolute;
@@ -66,11 +72,24 @@ export default function Home() {
           height: 520px;
           pointer-events: none;
           background: radial-gradient(closest-side at 50% 50%,
-            rgba(231,205,150,0.16),
+            rgba(240,213,158,0.22),
             rgba(255,255,255,0.00) 65%);
           filter: blur(10px);
           opacity: 0.85;
           animation: glowFloat 10s ease-in-out infinite;
+        }
+
+        .accentGlow {
+          position: absolute;
+          width: 460px;
+          height: 460px;
+          right: -120px;
+          top: 40px;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, rgba(116,190,160,0.35), rgba(9,12,10,0));
+          filter: blur(6px);
+          opacity: 0.9;
+          pointer-events: none;
         }
 
         @keyframes glowFloat {
@@ -115,14 +134,15 @@ export default function Home() {
         }
 
         .btnPrimary {
-          background: #ffffff;
-          color: #0b0b0c;
+          background: linear-gradient(120deg, #f3d79f, #ffffff);
+          color: #1a1407;
           padding: 14px 22px;
           border-radius: 12px;
           font-weight: 600;
           border: none;
           cursor: pointer;
           transition: transform .2s ease, opacity .2s ease;
+          box-shadow: 0 14px 32px rgba(0,0,0,0.3);
         }
 
         .btnPrimary:hover {
@@ -133,8 +153,8 @@ export default function Home() {
         .btnGhost {
           padding: 14px 22px;
           border-radius: 12px;
-          border: 1px solid rgba(255,255,255,0.22);
-          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(243,215,159,0.4);
+          background: rgba(255,255,255,0.06);
           font-weight: 600;
           transition: background .2s ease, transform .2s ease, opacity .2s ease;
           display: inline-flex;
@@ -143,7 +163,7 @@ export default function Home() {
         }
 
         .btnGhost:hover {
-          background: rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.12);
           transform: translateY(-1px);
         }
 
@@ -257,6 +277,7 @@ export default function Home() {
       {/* HERO */}
       <section style={{ padding: "140px 0 100px", position: "relative" }}>
         <div className="softGlow" />
+        <div className="accentGlow" />
         <div className="container">
           <div className="fade">
             <span
