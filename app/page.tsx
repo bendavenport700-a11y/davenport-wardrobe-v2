@@ -24,8 +24,8 @@ export default function Home() {
       style={{
         fontFamily: "'Inter', 'SF Pro Display', system-ui, sans-serif",
         background:
-          "radial-gradient(1200px 600px at 50% -10%, #121214 0%, #060607 55%)",
-        color: "#f1f1f1",
+          "radial-gradient(1200px 650px at 15% -12%, #2b3b34 0%, #0b0f0d 55%), radial-gradient(900px 560px at 85% 4%, rgba(170,141,86,0.35), transparent 60%), #0a0c0b",
+        color: "#f6f1e9",
         minHeight: "100vh",
       }}
     >
@@ -66,7 +66,7 @@ export default function Home() {
           height: 520px;
           pointer-events: none;
           background: radial-gradient(closest-side at 50% 50%,
-            rgba(255,255,255,0.08),
+            rgba(231,205,150,0.16),
             rgba(255,255,255,0.00) 65%);
           filter: blur(10px);
           opacity: 0.85;
@@ -196,6 +196,22 @@ export default function Home() {
           box-shadow: 0 6px 16px rgba(0,0,0,0.12);
         }
 
+        .heroChips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 18px;
+        }
+
+        .chip {
+          padding: 8px 12px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.18);
+          font-size: 0.9rem;
+          letter-spacing: -0.01em;
+        }
+
         @keyframes brandScroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -265,7 +281,7 @@ export default function Home() {
               letterSpacing: "-0.02em",
             }}
           >
-            A wardrobe access and rotation platform
+            Access a premium wardrobe without owning everything
           </h1>
 
           <p
@@ -277,13 +293,26 @@ export default function Home() {
               opacity: 0.78,
             }}
           >
-            Davenport Wardrobe lets you choose curated wardrobes or individual
-            pieces, then rotate, keep, or buy what you love. It is not a rental
-            service.
+            Davenport Wardrobe is a membership that gives you curated wardrobes
+            or individual pieces, plus flexible rotations and transparent buy
+            options. It is not a rental service.
           </p>
 
+          <div className="fade d3 heroChips">
+            {[
+              "Membership access",
+              "Rotate as your life changes",
+              "Buy what you love",
+              "Not a rental",
+            ].map((item) => (
+              <span key={item} className="chip">
+                {item}
+              </span>
+            ))}
+          </div>
+
           <div
-            className="fade d3"
+            className="fade d4"
             style={{ display: "flex", gap: 14, marginTop: 32, flexWrap: "wrap" }}
           >
             <a href="#waitlist" className="btnPrimary">
